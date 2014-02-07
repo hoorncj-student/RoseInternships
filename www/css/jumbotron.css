@@ -4,6 +4,17 @@ body {
   padding-bottom: 20px;
 }
 
-h1 {
-	
+select {
+	padding: 5px;
+	margin:5px;
+}
+
+#salaryslider, #hourlyslider {
+	max-width: 200px;
+	display: inline;
+	margin:5px;
+}
+
+#salaryval, #hourlyval {
+	display: inline;
 }

@@ -22,6 +22,17 @@ mysqli_select_db($conn, 'roseinternships') or die(mysqli_error());
     <!-- Custom styles for this template -->
     <link href="css/jumbotron.css" rel="stylesheet">
 
+    <script>
+    function setSalary()
+    {
+      document.getElementById('salaryval').innerText = "$"+document.getElementById('salaryslider').value;
+    }
+    function setHourly()
+    {
+      document.getElementById('hourlyval').innerText = "$"+document.getElementById('hourlyslider').value;
+    }
+    </script>
+
   </head>
 
   <body>
@@ -68,7 +79,7 @@ mysqli_select_db($conn, 'roseinternships') or die(mysqli_error());
           <?php
           echo '<button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">' .
             $searchfor .
-            '<span class="caret"></span></button>'
+            '<span class="caret"></span></button>';
           ?>
           <ul class="dropdown-menu">
             <li><a href='/search.php?searchfor=Internships'>Internships</a></li>
@@ -83,13 +94,42 @@ mysqli_select_db($conn, 'roseinternships') or die(mysqli_error());
           Field: <select name="field">
             <option value="any" selected>Any</option>
             <?php
-              $fields = mysqli_query($conn, "SELECT field ".
-                "FROM positions ");
-              // Display each post
+              $fields = mysqli_query($conn, "SELECT DISTINCT(field) ".
+                "FROM companies ");
               while ($field = mysqli_fetch_array($fields)) {
                 echo '<option value="' . htmlspecialchars($field[0]) . '">' . htmlspecialchars($field[0]) . '</option>';
               }
             ?>
+          </select>
+          Major: <select name="major">
+            <option value="any" selected>Any</option>
+            <?php
+              $majors = mysqli_query($conn, "SELECT DISTINCT(major) ".
+                "FROM positions ");
+              while ($major = mysqli_fetch_array($majors)) {
+                echo '<option value="' . htmlspecialchars($major[0]) . '">' . htmlspecialchars($major[0]) . '</option>';
+              }
+            ?>
+          </select>
+          <?php
+          if( $searchfor != 'Companies'){
+            echo 'Company: <select name="company">
+            <option value="any" selected>Any</option>';
+            $companies = mysqli_query($conn, "SELECT  company_name ".
+              "FROM companies ");
+            while ($company = mysqli_fetch_array($companies)) {
+              echo '<option value="' . htmlspecialchars($company[0]) . '">' . htmlspecialchars($company[0]) . '</option>';
+            }
+            echo '</select>';
+          }
+          ?>
+          <?php
+          if( $searchfor != 'Internships'){
+            echo 'Salary: <input id="salaryslider" type="range" name="salary" min="30000" max="200000" step="10000" value="30000" onChange="setSalary()"><label id="salaryval">$30000</label>';
+          }else{
+            echo 'Hourly Pay: <input id="hourlyslider" type="range" name="salary" min="10" max="50" step="5" value="10" onChange="setHourly()"><label id="hourlyval">$10</label>';
+          }
+          ?>
           </select>
         </form>
       </div>

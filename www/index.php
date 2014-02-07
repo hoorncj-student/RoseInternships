@@ -64,17 +64,17 @@
         <div class="col-md-4">
           <h2>Internships</h2>
           <p>Looking for the perfect experience to kickstart your career? Have a look at what Rose Students have been up to over the summer.</p>
-          <p><a class="btn btn-default" href="search.php?searchfor='Internship'" role="button">Find Internships &raquo;</a></p>
+          <p><a class="btn btn-default" href="search.php?searchfor=Internships" role="button">Find Internships &raquo;</a></p>
         </div>
         <div class="col-md-4">
           <h2>Careers</h2>
           <p>Still trying to figure out what to do after Rose? Find out what you might be worth based on statsitics from Rose Graduates.</p>
-          <p><a class="btn btn-default" href="search.php?searchfor='Career'" role="button">Find Careers &raquo;</a></p>
+          <p><a class="btn btn-default" href="search.php?searchfor=Careers" role="button">Find Careers &raquo;</a></p>
        </div>
         <div class="col-md-4">
           <h2>Companies</h2>
           <p>Interested in learning more about who's looking for you? See what past Rose Student have to say about their employers.</p>
-          <p><a class="btn btn-default" href="search.php?searchfor='Company'" role="button">Find Companies &raquo;</a></p>
+          <p><a class="btn btn-default" href="search.php?searchfor=Companies" role="button">Find Companies &raquo;</a></p>
         </div>
       </div>
 

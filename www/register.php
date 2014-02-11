@@ -37,24 +37,11 @@ mysqli_select_db($conn, 'rhitter') or die(mysqli_error());
 				$name = mysqli_real_escape_string($conn,$name);
 				$password = mysqli_real_escape_string($conn,$password);
 				// First, check for that username already being taken
-				$user_results = mysqli_query($conn, "SELECT username FROM users
-														WHERE username = " . $username);
-				// We don't care what the result is
-				// If there is one, that means the username is taken
+				$user_results = mysqli_query($conn,"SELECT [password]
+															WHERE username = " . $username . 
+															" AND password = saltedHash('" . $username . "', '" . $password . ")");
 				if ($user_results) {
-					if (mysqli_fetch_array($user_results)) {
-						echo '<ul><li>Username already taken</li></ul>';
-					}
-				// If no duplicates are found, go ahead and create the new user
-				} else {
-					mysqli_query($conn,"INSERT INTO users (name, username, hashed_password) " .
-										"VALUES ('" . $name . "', '" . $username . "', saltedHash('" . $username . "', '" . $password . "'))") or die(‘error’);
-					// Show a success message
-					echo '<ul><li>Registration successful!</li></ul>';
-					// Set the name and username fields to empty strings so they don't
-					// get automatically repopulated
-					$name = '';
-					$username = '';
+					setcookie("user", $)
 				}
 			}
 		}

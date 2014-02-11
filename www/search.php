@@ -1,10 +1,4 @@
 <!DOCTYPE html>
-<?php
-// Open a connection to the database
-// (display an error if the connection fails)
-$conn = mysqli_connect('localhost', 'root', '') or die(mysqli_error());
-mysqli_select_db($conn, 'roseinternships') or die(mysqli_error());
-?>
 <html lang="en">
   <head>
     <meta charset="utf-8">

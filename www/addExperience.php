@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
 
-    <title>Edit Your Account</title>
+    <title>Add Experience</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
@@ -53,8 +53,8 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h1>Edit Your Account</h1>
-        <p>You can edit your accunt information here. </p>
+        <h1>Add An Experience</h1>
+        <p>You can add a new experience here. </p>
       </div>
     </div>
 
@@ -63,45 +63,47 @@
       <div class="row">
 
 
-          <h2>Major</h2>
+          <h2>Company</h2>
             <div class="form-group">
-              <form>
-                <select name="changeMajor">
-                  <option value="EE">EE</option>
-                  <option value="CS" selected="selected">CS</option>
-                  <option value="ME">ME</option>
-                  <option value="CPE">CPE</option>
-                </select>
-              </form>
-            </div>
-
-
-          <h2>Graduation Year</h2>
-            <div class="form-group">
-              <input type="text" placeholder="change graduateion year to ..." class="form-control">
+              <input type="text" placeholder="Please tell us the company name" class="form-control">
             </div>
 
 
 
-          <h2>Email</h2>
+          <h2>Position</h2>
             <div class="form-group">
-              <input type="text" placeholder="change email to ..." class="form-control">
+              <input type="text" placeholder="Please tell us your position" class="form-control">
             </div>
 
 
 
-          <h2>GPA</h2>
+          <h2>Hourly Salary</h2>
             <div class="form-group">
-              <input type="text" placeholder="change GPA to ..." class="form-control">
+              <input type="text" placeholder="Please tell us your hourly salary" class="form-control">
+            </div>
+
+
+
+          <h2>Monthly Salary</h2>
+            <div class="form-group">
+              <input type="text" placeholder="Please tell us your monthly salary" class="form-control">
             </div>
   
 
 
-          <h2>Password</h2>
+          <h2>Start Date</h2>
             <div class="form-group">
-              <input type="password" placeholder="change password to ..." class="form-control">
+              <input type="password" placeholder="Please tell us your start date for your experience" class="form-control">
             </div>
-          
+
+
+
+          <h2>End Date</h2>
+            <div class="form-group">
+              <input type="password" placeholder="Please tell us your end date for your experience" class="form-control">
+            </div>
+
+
       </div>
 
       <hr>

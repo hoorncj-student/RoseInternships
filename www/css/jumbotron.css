@@ -1,20 +1,5 @@
-/* Move down content because we have a fixed navbar that is 50px tall */
+/* Space out content a bit */
 body {
   padding-top: 50px;
   padding-bottom: 20px;
-}
-
-select {
-	padding: 5px;
-	margin:5px;
-}
-
-#salaryslider, #hourlyslider {
-	max-width: 200px;
-	display: inline;
-	margin:5px;
-}
-
-#salaryval, #hourlyval {
-	display: inline;
 }

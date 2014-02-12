@@ -1,9 +1,7 @@
 <?php
-// Open a connection to the database
-// (display an error if the connection fails)
-$conn = mysqli_connect('localhost', 'root', '') or die(mysqli_error());
-mysqli_select_db($conn, 'roseinternships') or die(mysqli_error());
+
 $cookieset = 0;
+
 // Only execute if we're receiving a post
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if(isset($_POST['login'])){
@@ -36,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
   if(isset($_POST['logout'])){
     setcookie("user", 0, time()-3600);
-    $cookieset = 2;
+    $cookieset = -1;
   }
 }
 ?>
@@ -57,13 +55,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     		<li id="hometab"><a href="index.php">Home</a></li>
     		<li id="searchtab"><a href="search.php">Search</a></li>
         <?php
-        if($cookieset == 1 or (isset($_COOKIE["user"]) and $cookieset < 2)){
-    		  echo '<li id="profiletab"><a href="userProfile.php">Profile</a><li>';
+        if($cookieset > 0 or (isset($_COOKIE["user"]) and $cookieset > -1)){
+          if($cookieset > 0){
+            echo '<li id="profiletab"><a href="userProfile.php?studentid=' . $cookieset . '">Profile</a><li>';
+          } else {
+    		    echo '<li id="profiletab"><a href="userProfile.php?studentid=' . $_COOKIE["user"] . '">Profile</a><li>';
+          }
         }
         ?>
     	</ul>
       <?php
-      if($cookieset == 1 or (isset($_COOKIE["user"]) and $cookieset < 2)){
+      if($cookieset > 0 or (isset($_COOKIE["user"]) and $cookieset > -1)){
         echo '<form class="navbar-form navbar-right" role="form" method="post">
           <button type="submit" class="btn btn-success" name="logout">Log out</button>
         </form>';
@@ -76,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                   <input type="password" placeholder="Password" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-success" name="login">Sign in</button>
+                <a href="register.php"><button type="button" id="regbutton" class="btn btn-success" name="register">Register</button></a>
               </form>';
       }
       ?>

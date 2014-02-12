@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<?php include 'dbconnection.php'; ?>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -15,6 +16,8 @@
 
     <!-- Custom styles for this template -->
     <link href="css/jumbotron.css" rel="stylesheet">
+
+    <link href="css/header.css" rel="stylesheet">
 
   </head>
 

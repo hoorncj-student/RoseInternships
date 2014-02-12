@@ -1,0 +1,9 @@
+#regbutton {
+	background-color:#44d;
+	border-color:#44d;
+}
+
+#regbutton:hover{
+	background-color:#22d;
+	border-color:#22d;
+}

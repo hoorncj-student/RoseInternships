@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<?php include 'dbconnection.php'; ?>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -8,13 +9,20 @@
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
 
-    <title>XXX's Profile</title>
-
+    <?php
+    $student_results = mysqli_query($conn, "SELECT * " .
+                                      "FROM students " .
+                                      "WHERE student_id = " . $_GET["studentid"]);
+    $student_row = mysqli_fetch_assoc($student_results);
+    echo "<title>" . $student_row["student_name"] . "'s Profile</title>";
+    ?>
     <!-- Bootstrap core CSS -->
     <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="css/jumbotron.css" rel="stylesheet">
+
+    <link href="css/header.css" rel="stylesheet">
 
   </head>
 
@@ -25,9 +33,11 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h1>XXX's Profile</h1>
-        <p>XXX is a student/alumni major in xxx, graduated/will graduate at 20xx. </p>
-        <p><a class="btn btn-default" href="editAccount.php" role="button"> Edit Account &raquo;</a></p>
+        <?php
+        echo '<h1>'. $student_row["student_name"] . "'" . 's Profile</h1>
+          <p>' . $student_row["student_name"] . ' is a member of the class of ' . $student_row["grad_year"] . ' with a major in ' . $student_row["major"] .'</p>
+          <p><a class="btn btn-default" href="editAccount.php" role="button"> Edit Account &raquo;</a></p>'
+        ?>
       </div>
     </div>
 

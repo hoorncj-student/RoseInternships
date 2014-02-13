@@ -10,11 +10,12 @@
     <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
 
     <?php
+    $sid = mysqli_real_escape_string($conn,$_GET["studentid"]);
     $student_results = mysqli_query($conn, "SELECT * " .
                                       "FROM students " .
-                                      "WHERE student_id = " . $_GET["studentid"]);
+                                      "WHERE student_id = " . $sid);
     $student_row = mysqli_fetch_assoc($student_results);
-    echo "<title>" . $student_row["student_name"] . "'s Profile</title>";
+    echo "<title>" . htmlspecialchars($student_row["student_name"]) . "'s Profile</title>";
     ?>
     <!-- Bootstrap core CSS -->
     <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
@@ -34,8 +35,8 @@
     <div class="jumbotron">
       <div class="container">
         <?php
-        echo '<h1>'. $student_row["student_name"] . "'" . 's Profile</h1>
-          <p>' . $student_row["student_name"] . ' is a member of the class of ' . $student_row["grad_year"] . ' with a major in ' . $student_row["major"] .'</p>
+        echo '<h1>'. htmlspecialchars($student_row["student_name"]) . "'" . 's Profile</h1>
+          <p>' . htmlspecialchars($student_row["student_name"]) . ' is a member of the class of ' . htmlspecialchars($student_row["grad_year"]) . ' with a major in ' . htmlspecialchars($student_row["major"]) .'</p>
           <p><a class="btn btn-default" href="editAccount.php" role="button"> Edit Account &raquo;</a></p>'
         ?>
       </div>

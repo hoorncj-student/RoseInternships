@@ -47,7 +47,7 @@
         <div class="btn-group">
           <?php
           echo '<button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">' .
-            $searchfor .
+            htmlspecialchars($searchfor) .
             '<span class="caret"></span></button>';
           ?>
           <ul class="dropdown-menu">

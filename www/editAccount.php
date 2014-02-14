@@ -42,10 +42,12 @@
             <div class="form-group">
               <form>
                 <select name="changeMajor">
-                  <option value="EE">EE</option>
-                  <option value="CS" selected="selected">CS</option>
-                  <option value="ME">ME</option>
-                  <option value="CPE">CPE</option>
+                  <?php
+                  $majors = get_majors();
+                  for($x=0;$x<count($majors);$x++){
+                    echo '<option value="' . $majors[$x] . '">' . $majors[$x] . '</option>';
+                  }
+                  ?>
                 </select>
               </form>
             </div>

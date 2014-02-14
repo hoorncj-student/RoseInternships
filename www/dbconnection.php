@@ -10,4 +10,8 @@ if(isset($_COOKIE["user"])){
                                       #"WHERE student_id = 1");# . $_COOKIE["user"]);
   $user_row = mysqli_fetch_assoc($user_results);
 }
+
+function get_majors(){
+	return array("AB","BE","CE","CHE","CHEM","CPE","CS","EE","EMGT","EP","MA","ME","OE","PH","SE");
+}
 ?>

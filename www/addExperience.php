@@ -19,6 +19,73 @@
 
     <link href="css/header.css" rel="stylesheet">
 
+    <script>
+    function setOtherCompany()
+    {
+      var comp = document.getElementById('companyselect');
+      if(comp.value == 'other'){
+        document.getElementById('othercompany').style.display = "block";
+        document.getElementById('othercompanydesc').style.display = "block";
+        document.getElementById('companyfielddiv').style.display = "block";
+      } else {
+        document.getElementById('othercompany').style.display = "none";
+        document.getElementById('othercompanydesc').style.display = "none";
+        document.getElementById('companyfielddiv').style.display = "none";
+      }
+      getPositions();
+    }
+    function setOtherField()
+    {
+      var comp = document.getElementById('companyfieldselect');
+      if(comp.value == 'other'){
+        document.getElementById('othercompanyfield').style.display = "block";
+      } else {
+        document.getElementById('othercompanyfield').style.display = "none";
+      }
+    }
+    function setOtherPosition()
+    {
+      var comp = document.getElementById('positionselect');
+      if(comp.value == 'other'){
+        document.getElementById('otherposition').style.display = "block";
+        document.getElementById('otherpositiondesc').style.display = "block";
+      } else {
+        document.getElementById('otherposition').style.display = "none";
+        document.getElementById('otherpositiondesc').style.display = "none";
+      }
+    }
+    </script>
+
+    <script>
+    var xmlhttp;
+    function loadXMLDoc(url,cfunc)
+    {
+      if (window.XMLHttpRequest)
+        {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp= new XMLHttpRequest();
+        }
+      else
+        {// code for IE6, IE5
+        xmlhttp= new ActiveXObject("Microsoft.XMLHTTP");
+        }
+      xmlhttp.onreadystatechange=cfunc;
+      xmlhttp.open("GET",url,true);
+      xmlhttp.send();
+    }
+
+    function getPositions()
+    {
+      var comp = document.getElementById('companyselect'); 
+      loadXMLDoc("ajaxcalls.php?function_to_call=0&companyid="+comp.value,function()
+        {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+          {
+          document.getElementById("positionselect").innerHTML=xmlhttp.responseText;
+          }
+        });
+    }
+    </script>
+
   </head>
 
   <body>
@@ -34,14 +101,43 @@
     </div>
 
     <div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
-
-
+      <form role="form" class="registration-form" method="POST">
+        <div class="row">
           <h2>Company</h2>
-            <div class="form-group">
-              <input type="text" placeholder="Please tell us the company name" class="form-control">
-            </div>
+          <select id="companyselect" onChange="setOtherCompany()" name="company">
+            <?php
+            $companies = mysqli_query($conn, "SELECT  company_id, company_name ".
+              "FROM companies ");
+            while ($company = mysqli_fetch_array($companies)) {
+              echo '<option value="' . htmlspecialchars($company[0]) . '">' . htmlspecialchars($company[1]) . '</option>';
+            }
+            echo '<option value="other">Other</option>';
+            ?>
+          </select>
+          <input type="text" style="display:none" placeholder="Please tell us the company name" id="othercompany" class="form-control">
+          <input type="text" style="display:none" placeholder="Please give a short description of the company" id="othercompanydesc" class="form-control">
+          <div id="companyfielddiv" style="display:none">
+            <h3>Field</h3>
+            <select id="companyfieldselect" onChange="setOtherField()" name="companyfield">
+              <?php
+              $fields = mysqli_query($conn, "SELECT  DISTINCT(field) FROM companies ");
+              while ($field = mysqli_fetch_array($fields)) {
+                echo '<option value="' . htmlspecialchars($field[0]) . '">' . htmlspecialchars($field[0]) . '</option>';
+              }
+              echo '<option value="other">Other</option>';
+              ?>
+            </select>
+            <input type="text" style="display:none" placeholder="Please provide the company's field" id="othercompanyfield" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <h2>Position</h2>
+          <select id="positionselect" onChange="setOtherPosition()" name="position">
+            <option value="other">Other</option>
+          </select>
+          <input type="text" style="display:none" placeholder="Please tell us the position title" id="otherposition" class="form-control">
+          <input type="text" style="display:none" placeholder="Please give a short description of the position" id="otherpositiondesc" class="form-control">
+        </div>
 
 
 
@@ -77,11 +173,6 @@
             <div class="form-group">
               <input type="password" placeholder="Please tell us your end date for your experience" class="form-control">
             </div>
-
-
-      </div>
-
-      <hr>
       <footer>
         <p>&copy; Company 2014</p>
       </footer>
@@ -93,5 +184,6 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="../../dist/js/bootstrap.min.js"></script>
+    <script>getPositions();</script>
   </body>
 </html>

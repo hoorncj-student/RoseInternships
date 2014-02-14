@@ -67,7 +67,7 @@
   		if(isset($_POST['email']) and strlen($_POST['email']) > 0){
   			$email = $_POST['email'];
   		}
-  		if(isset($_POST['m1']) and strlen($_POST['m1']) > 0){
+  		/*if(isset($_POST['m1']) and strlen($_POST['m1']) > 0){
   			$m1 = $_POST['m1'];
   			$major .= $m1;
   			if(isset($_POST['m2']) and strlen($_POST['m2']) > 0){
@@ -78,7 +78,10 @@
   					$major .= '/' . $m3;
   				}
   			}
-  		}
+  		}*/
+      if(isset($_POST['major']) and strlen($_POST['major']) > 0){
+        $major = $_POST['major'];
+      }
   		if(isset($_POST['gradyr']) and strlen($_POST['gradyr']) > 0){
   			$gradyr = $_POST['gradyr'];
   		}
@@ -149,18 +152,42 @@
         <div class="row">
           <label class="col-xs-4" for="inputMajor">Major</label>
           <div class="col-xs-8">
-            <?php echo '<input type="text" class="form-control" id="inputMajor" name="m1"placeholder="Major" value=' . htmlspecialchars($m1) . '>'; ?>
+            <select name="major">
+              <?php
+              $majors = get_majors();
+              for($x=0;$x<count($majors);$x++){
+                if($major == $majors[$x]){
+                  echo '<option selected="selected" value="' . htmlspecialchars($majors[$x]) . '">' . htmlspecialchars($majors[$x]) . '</option>';
+                } else{
+                  echo '<option value="' . htmlspecialchars($majors[$x]) . '">' . htmlspecialchars($majors[$x]) . '</option>';
+                }
+              }
+              ?>
+            </select>
           </div>
         </div>
         <div class="row">
           <label class="col-xs-4" for="inputEmail">Grad Year</label>
           <div class="col-xs-8">
-            <?php echo '<input type="text" class="form-control" id="inputGradyr" name="gradyr"placeholder="Grad Year" value=' . htmlspecialchars($gradyr) . '>'; ?>
+            <select name="gradyr">
+              <?php
+              $startYear = 1877;
+              $endYear = date('Y')+4;
+              foreach (range($endYear, $startYear) as $yr){
+                if($gradyr == $yr){
+                  echo '<option selected="selected" value="' . htmlspecialchars($yr) . '">' . htmlspecialchars($yr) . '</option>';
+                }else{
+                  echo '<option value="' . htmlspecialchars($yr) . '">' . htmlspecialchars($yr) . '</option>';
+                }
+              }
+              ?>
+            </select>
+            <?php #echo '<input type="text" class="form-control" id="inputGradyr" name="gradyr"placeholder="Grad Year" value=' . htmlspecialchars($gradyr) . '>'; ?>
           </div>
         </div>
         <div class="row">
-          <label class="col-xs-4" for="inputEmail">GPA</label>
-          <div class="col-xs-8">
+          <label class="col-xs-4" for="inputGPA">GPA</label>
+          <div class="col-xs-4">
             <?php echo '<input type="text" class="form-control" id="inputGpa" name="gpa"placeholder="GPA" value=' . htmlspecialchars($gpa) . '>'; ?>
           </div>
         </div>

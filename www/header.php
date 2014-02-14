@@ -1,36 +1,37 @@
 <?php
 
 $cookieset = 0;
+$errors = '';
 
 // Only execute if we're receiving a post
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if(isset($_POST['login'])){
+
     // This will be the string we collect errors in
-    $errors = '';
     // Make sure the username field is filled
-    /*$username = $_POST['username'];
+    $username = $_POST['username'];
     $password = $_POST['password'];
-    if (empty($name) or empty($password)){
+    if (empty($username) or empty($password)){
       $errors .= '<li>Both fields required</li>';
     } else {
-      // Otherwise, begin the user creation process
+      //checking the username and password combination
       $username = mysqli_real_escape_string($conn,$username);
       $password = mysqli_real_escape_string($conn,$password);
-      // First, check for that username already being taken
-      $user_results = mysqli_query($conn,"SELECT [password]
-                                WHERE username = " . $username . 
-                                " AND password = saltedHash('" . $username . "', '" . $password . ")");
-      // We don't care what the result is
-      // If there is one, that means the username is taken
+      $user_results = mysqli_query($conn,
+                                "SELECT student_id
+                                FROM students
+                                WHERE username = '" . $username . "'
+                                AND password = saltedHash('" . $username . "', '" . $password . "')");
+      //If the user+password combination exist
       if ($user_results) {
-        $user_id = mysqli_fetch_array($user_results);
-        if($user_id[0]){
-          setcookie("user", $user_id[0]);
+        $student_id = mysqli_fetch_array($user_results);
+        if($student_id[0]){
+          setcookie("user", $student_id[0]);    $cookieset = $student_id[0];  
+        }else{
+        $errors .= 'wrong credential';
         }
       }
-    }*/
-    setcookie("user", 1);
-    $cookieset = 1;
+    }
   }
   if(isset($_POST['logout'])){
     setcookie("user", 0, time()-3600);
@@ -72,14 +73,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       } else {
         echo '<form class="navbar-form navbar-right" role="form" method="post">
                 <div class="form-group">
-                  <input type="text" placeholder="Username" class="form-control">
+                  <label id="loginerror">' . $errors . '</label>
                 </div>
                 <div class="form-group">
-                  <input type="password" placeholder="Password" class="form-control">
+                  <input type="text" name="username" placeholder="Username" class="form-control">
+                </div>
+                <div class="form-group">
+                  <input type="password" name="password" placeholder="Password" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-success" name="login">Sign in</button>
                 <a href="register.php"><button type="button" id="regbutton" class="btn btn-success" name="register">Register</button></a>
-              </form>';
+              </form>';  
+              
       }
       ?>
     </div><!--/.navbar-collapse -->

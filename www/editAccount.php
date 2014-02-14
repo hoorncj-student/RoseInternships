@@ -52,30 +52,32 @@
 
 
           <h2>Graduation Year</h2>
-            <div class="form-group">
+            <div class="col-xs-4">
               <input type="text" placeholder="change graduateion year to ..." class="form-control">
-            </div>
+            </div><br/><br/>
 
 
 
-          <h2>Email</h2>
-            <div class="form-group">
-              <input type="text" placeholder="change email to ..." class="form-control">
-            </div>
+
 
 
 
           <h2>GPA</h2>
-            <div class="form-group">
+            <div class="col-xs-2">
               <input type="text" placeholder="change GPA to ..." class="form-control">
-            </div>
+            </div><br/><br/>
   
 
 
           <h2>Password</h2>
-            <div class="form-group">
+            <div class="col-xs-4">
               <input type="password" placeholder="change password to ..." class="form-control">
-            </div>
+            </div><br/><br/>
+
+          <h2>Email</h2>
+            <div class="col-xs-6">
+              <input type="text" placeholder="change email to ..." class="form-control">
+            </div><br/><br/>
           
       </div>
 

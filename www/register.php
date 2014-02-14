@@ -80,8 +80,26 @@
   			$gpa = $_POST['gpa'];
   		}
   		if(!$errmessage){
-  			echo 'creation successful';
-  			//TODO add account to database
+  			$paramstring = 'student_name, username, password';
+  			$datastring = "'" . mysql_real_escape_string($name) . "', '" . mysql_real_escape_string($username) . "', saltedHash('" . mysql_real_escape_string($username) . "', '" . mysql_real_escape_string($pass) . "')";
+  			if($email != ''){
+  				$paramstring .= ', email';
+  				$datastring .= ", '" . mysql_real_escape_string($email) . "'";
+  			}
+  			if($major != ''){
+  				$paramstring .= ', major';
+				$datastring .= ", '" . mysql_real_escape_string($major) . "'";
+  			}
+  			if($gradyr != ''){
+  				$paramstring .= ', grad_year';
+  				$datastring .= ", '" . mysql_real_escape_string($gradyr) . "'";
+  			}
+  			if($gpa != ''){
+  				$paramstring .= ', gpa';
+  				$datastring .= ", " . mysql_real_escape_string($gpa);
+  			}
+  			mysqli_query($conn, "INSERT INTO students (" . $paramstring . ")
+                                 VALUES (" . $datastring . ")");
   			echo "<script> window.location = 'index.php';</script>";
   		}
   	}

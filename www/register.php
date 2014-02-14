@@ -45,8 +45,16 @@
   		if(!isset($_POST['username']) or strlen($_POST['username']) == 0){
   			$errmessage .= 'username required<br />';
   		} else {
-  			$username = $_POST['username'];
-  		}
+  			$existinguser = mysqli_query($conn, "SELECT *
+                					FROM students 
+                					WHERE username  = '" . mysql_real_escape_string($_POST['username']) . "'");
+  			if(mysqli_num_rows($existinguser) > 0){
+  				$errmessage .= 'username already in use<br />';
+  			}
+  			else {
+  				$username = $_POST['username'];
+  			}
+  		} 
   		if(!isset($_POST['pass1']) or strlen($_POST['pass1']) ==0){
   			$errmessage .= 'password required<br />';
   		} else if($_POST['pass1'] != $_POST['pass2']){

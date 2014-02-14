@@ -130,6 +130,7 @@
             <input type="text" style="display:none" placeholder="Please provide the company's field" id="othercompanyfield" class="form-control">
           </div>
         </div>
+
         <div class="row">
           <h2>Position</h2>
           <select id="positionselect" onChange="setOtherPosition()" name="position">
@@ -139,14 +140,18 @@
           <input type="text" style="display:none" placeholder="Please give a short description of the position" id="otherpositiondesc" class="form-control">
         </div>
 
-
-
-          <h2>Position</h2>
-            <div class="form-group">
-              <input type="text" placeholder="Please tell us your position" class="form-control">
-            </div>
-
-
+        <div class="row">
+          <h2>Salary</h2>
+          <select style="float:left" id="positionselect" onChange="setOtherPosition()" name="position">
+            <option value="annual">Annual</option>
+            <option value="monthly">Monthly</option>
+            <option value="hourly">Hourly</option>
+          </select>
+          <div style="float:left" class="input-group">
+            <span class="input-group-addon">$</span>
+            <input type="text" placeholder="Dollar amount" class="form-control">
+          </div>
+        </div>
 
           <h2>Hourly Salary</h2>
             <div class="form-group">

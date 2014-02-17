@@ -5,3 +5,7 @@
 select {
 	padding: 5px;
 }
+
+#addExpErrorLabel {
+	color:#f00;
+}

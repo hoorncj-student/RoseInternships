@@ -47,7 +47,7 @@
   		} else {
   			$existinguser = mysqli_query($conn, "SELECT *
                 					FROM students 
-                					WHERE username  = '" . mysql_real_escape_string($_POST['username']) . "'");
+                					WHERE username  = '" . mysqli_real_escape_string($conn, $_POST['username']) . "'");
   			if(mysqli_num_rows($existinguser) > 0){
   				$errmessage .= 'username already in use<br />';
   			}
@@ -92,22 +92,22 @@
   		}
   		if(!$errmessage){
   			$paramstring = 'student_name, username, password';
-  			$datastring = "'" . mysql_real_escape_string($name) . "', '" . mysql_real_escape_string($username) . "', saltedHash('" . mysql_real_escape_string($username) . "', '" . mysql_real_escape_string($pass) . "')";
+  			$datastring = "'" . mysqli_real_escape_string($conn,$name) . "', '" . mysqli_real_escape_string($conn,$username) . "', saltedHash('" . mysqli_real_escape_string($conn,$username) . "', '" . mysqli_real_escape_string($conn,$pass) . "')";
   			if($email != ''){
   				$paramstring .= ', email';
-  				$datastring .= ", '" . mysql_real_escape_string($email) . "'";
+  				$datastring .= ", '" . mysqli_real_escape_string($conn,$email) . "'";
   			}
   			if($major != ''){
   				$paramstring .= ', major';
-				$datastring .= ", '" . mysql_real_escape_string($major) . "'";
+				$datastring .= ", '" . mysqli_real_escape_string($conn,$major) . "'";
   			}
   			if($gradyr != ''){
   				$paramstring .= ', grad_year';
-  				$datastring .= ", '" . mysql_real_escape_string($gradyr) . "'";
+  				$datastring .= ", '" . mysqli_real_escape_string($conn,$gradyr) . "'";
   			}
   			if($gpa != ''){
   				$paramstring .= ', gpa';
-  				$datastring .= ", " . mysql_real_escape_string($gpa);
+  				$datastring .= ", " . mysqli_real_escape_string($conn,$gpa);
   			}
   			mysqli_query($conn, "INSERT INTO students (" . $paramstring . ")
                                  VALUES (" . $datastring . ")");

@@ -36,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if(isset($_POST['logout'])){
     setcookie("user", 0, time()-3600);
     $cookieset = -1;
+    echo "<script> window.location = 'index.php';</script>";
   }
 }
 ?>

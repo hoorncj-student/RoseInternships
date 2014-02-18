@@ -33,7 +33,8 @@
 
     <?php
     if(isset($_POST['accept_offer'])){
-      mysqli_query($conn, "accept_offer(".$_POST['accept_offer'].")");
+      $success = mysqli_query($conn, "CALL accept_offer(".$_POST['accept_offer'].")");
+      echo mysqli_fetch_array($success)[0];
     }
     ?>
 
@@ -76,7 +77,7 @@
                         <td>'. $offer[1] .'</td>
                         <td>'. $offer[2] .'</td>
                         <td>'. $moneystring .'</td>
-                        <td><form role="form" method="POST" onsubmit="return confirm('.'"Are you sure you want to remove this website?"'.')">
+                        <td><form role="form" method="POST">
                           <input type="hidden" name="accept_offer" value='.$offer[5].' />
                           <button type="submit" class="btn btn-primary button-submit">Accept</button>
                           </form></td>

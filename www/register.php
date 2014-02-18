@@ -36,7 +36,7 @@
     $major = '';
     $gradyr = '';
     $gpa = '';
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_POST["createaccount"])) {
   		if(!isset($_POST['name']) or strlen($_POST['name']) == 0){
   			$errmessage .= 'name required<br />';
   		} else {
@@ -195,7 +195,7 @@
         </div>
         <div class="row">
           <div class="col-xs-12">
-            <button type="submit" class="btn btn-default button-submit">Create Account</button>
+            <button type="submit" name="createaccount" class="btn btn-default button-submit">Create Account</button>
           </div>
         </div>
       </form>

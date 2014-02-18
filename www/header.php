@@ -3,6 +3,22 @@
 $cookieset = 0;
 $errors = '';
 
+function toMoney($val,$symbol='$',$r=2)
+{
+
+
+    $n = $val; 
+    $c = is_float($n) ? 1 : number_format($n,$r);
+    $d = '.';
+    $t = ',';
+    $sign = ($n < 0) ? '-' : '';
+    $i = $n=number_format(abs($n),$r); 
+    $j = (($j = strlen($i)) > 3) ? $j % 3 : 0; 
+
+   return  $symbol.$sign .($j ? substr($i,0, $j) + $t : '').preg_replace('/(\d{3})(?=\d)/',"$1" + $t,substr($i,$j)) ;
+
+}
+
 // Only execute if we're receiving a post
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if(isset($_POST['login'])){
@@ -50,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Rose Internship and Experience Database</a>
+      <a class="navbar-brand" href="index.php">Rose Internship and Experience Database</a>
     </div>
     <div class="navbar-collapse collapse">
     	<ul class="nav navbar-nav">

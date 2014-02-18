@@ -81,6 +81,8 @@
   		}*/
       if(isset($_POST['major']) and strlen($_POST['major']) > 0){
         $major = $_POST['major'];
+      } else {
+        $errmessage .= 'major required';
       }
   		if(isset($_POST['gradyr']) and strlen($_POST['gradyr']) > 0){
   			$gradyr = $_POST['gradyr'];
@@ -144,13 +146,7 @@
           </div>
         </div>
         <div class="row">
-          <label class="col-xs-4" for="inputEmail">Email</label>
-          <div class="col-xs-8">
-            <?php echo '<input type="email" class="form-control" id="inputEmail" name="email"placeholder="Email" value=' . htmlspecialchars($email) . '>'; ?>
-          </div>
-        </div>
-        <div class="row">
-          <label class="col-xs-4" for="inputMajor">Major</label>
+          <label class="col-xs-4" for="inputMajor">Major*</label>
           <div class="col-xs-8">
             <select name="major">
               <?php
@@ -164,6 +160,12 @@
               }
               ?>
             </select>
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-xs-4" for="inputEmail">Email</label>
+          <div class="col-xs-8">
+            <?php echo '<input type="email" class="form-control" id="inputEmail" name="email"placeholder="Email" value=' . htmlspecialchars($email) . '>'; ?>
           </div>
         </div>
         <div class="row">

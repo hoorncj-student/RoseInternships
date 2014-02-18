@@ -31,41 +31,73 @@
 
     <?php include 'header.php'; ?>
 
+    <?php
+    if(isset($_POST['accept_offer'])){
+      mysqli_query($conn, "accept_offer(".$_POST['accept_offer'].")");
+    }
+    ?>
+
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
         <?php
         echo '<h1>'. htmlspecialchars($student_row["student_name"]) . "'" . 's Profile</h1>
-          <p>' . htmlspecialchars($student_row["student_name"]) . ' is a member of the class of ' . htmlspecialchars($student_row["grad_year"]) . ' with a major in ' . htmlspecialchars($student_row["major"]) .'</p>
-          <p><a class="btn btn-default" href="editAccount.php" role="button"> Edit Account &raquo;</a></p>'
+          <p>' . htmlspecialchars($student_row["student_name"]) . ' is a member of the class of ' . htmlspecialchars($student_row["grad_year"]) . ' with a major in ' . htmlspecialchars($student_row["major"]) .'</p>';
+        if($student_row['student_id'] == $user_row['student_id'] ){
+          echo '<p><a class="btn btn-default" href="editAccount.php" role="button"> Edit Account &raquo;</a></p>';
+        }
         ?>
       </div>
     </div>
 
     <div class="container">
-      <!-- Example row of columns -->
-
-
-
+     
           <h2>Experiences</h2>
-          <p><a class="btn btn-default" href="addExperience.php" role="button"> Add Experience &raquo;</a></p>
+          <div class="panel panel-default">
+            <div class="panel-heading">Offers</div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Company</th>
+                  <th>Position</th>
+                  <th>Start Date</th>
+                  <th>Salary</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php
+                  $offer_results = mysqli_query($conn, "SELECT company_name, title, start_date, salary, hourly_pay, offer_id
+                                                  FROM offers_view
+                                                  WHERE student_id = " . $sid);
+                  while ($offer = mysqli_fetch_array($offer_results)) {
+                    $moneystring = ($offer[3] == 0) ? toMoney($offer[4]) . "/hr" : toMoney($offer[3]) . "/yr";
+                    echo '<tr>
+                        <td>'. $offer[0] .'</td>
+                        <td>'. $offer[1] .'</td>
+                        <td>'. $offer[2] .'</td>
+                        <td>'. $moneystring .'</td>
+                        <td><form role="form" method="POST" onsubmit="return confirm('.'"Are you sure you want to remove this website?"'.')">
+                          <input type="hidden" name="accept_offer" value='.$offer[5].' />
+                          <button type="submit" class="btn btn-primary button-submit">Accept</button>
+                          </form></td>
+                      </tr>';
+                  }
+                ?>
+              </tbody>
+            </table>
+          </div>
 
+          <?php
+          if($student_row['student_id'] == $user_row['student_id'] ){
+            echo '<p><a class="btn btn-default" href="addExperience.php" role="button"> Add Experience &raquo;</a></p>';
+          }
+          ?>
 
           <h2>Reviews</h2>
 
-
-
           <h2>Classes</h2>
 
-
-
-      <hr>
-      <footer>
-        <p>&copy; Company 2014</p>
-      </footer>
     </div> <!-- /container -->
-
-
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

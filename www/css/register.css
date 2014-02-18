@@ -24,3 +24,7 @@ h1{
 	margin:0 auto;
 	color: #f00;
 }
+
+select {
+	padding: 5px;
+}

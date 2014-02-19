@@ -105,9 +105,9 @@
               while ($offer = mysqli_fetch_array($offer_results)) {
                 $moneystring = ($offer[3] == 0) ? toMoney($offer[4]) . "/hr" : toMoney($offer[3]) . "/yr";
                 echo '<tr>
-                    <td>'. $offer[0] .'</td>
-                    <td>'. $offer[1] .'</td>
-                    <td>'. $offer[2] .'</td>
+                    <td>'. htmlspecialchars($offer[0]) .'</td>
+                    <td>'. htmlspecialchars($offer[1]) .'</td>
+                    <td>'. htmlspecialchars($offer[2]) .'</td>
                     <td>'. $moneystring .'</td>';
                 echo '<td><form role="form" method="POST">
                           <input type="hidden" name="offer_id" value='.$offer[5].' />';
@@ -144,10 +144,10 @@
               while ($emp = mysqli_fetch_array($employment_results)) {
                 $moneystring2 = ($emp[4] == 0) ? toMoney($emp[5]) . "/hr" : toMoney($emp[4]) . "/yr";
                 echo '<tr>
-                    <td>'. $emp[0] .'</td>
-                    <td>'. $emp[1] .'</td>
-                    <td>'. $emp[2] .'</td>
-                    <td>'. $emp[3] .'</td>
+                    <td>'. htmlspecialchars($emp[0]) .'</td>
+                    <td>'. htmlspecialchars($emp[1]) .'</td>
+                    <td>'. htmlspecialchars($emp[2]) .'</td>
+                    <td>'. htmlspecialchars($emp[3]) .'</td>
                     <td>'. $moneystring2 .'</td>
                     <td><form role="form" method="POST">
                           <input type="hidden" name="employment_id" value='.$emp[6].' />

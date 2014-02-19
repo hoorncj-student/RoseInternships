@@ -52,10 +52,21 @@
         document.getElementById('otherposition').style.display = "block";
         document.getElementById('otherpositiondesc').style.display = "block";
         document.getElementById('postypeselect').style.display = "block";
+        updateSalaryTypes();
       } else {
         document.getElementById('otherposition').style.display = "none";
         document.getElementById('otherpositiondesc').style.display = "none";
         document.getElementById('postypeselect').style.display = "none";
+        setSalaryTypes();
+      }
+    }
+    function updateSalaryTypes()
+    {
+      var comp = document.getElementById('postypeselect');
+      if(comp.value != 'full time'){
+        document.getElementById('salarytypeselect').innerHTML = '<option value="hourly">Hourly</option>';
+      } else {
+        document.getElementById('salarytypeselect').innerHTML = '<option value="annual">Annual</option><option value="monthly">Monthly</option>';
       }
     }
     </script>
@@ -86,6 +97,17 @@
           {
           document.getElementById("positionselect").innerHTML=xmlhttp.responseText;
           setOtherPosition();
+          }
+        });
+    }
+    function setSalaryTypes()
+    {
+      var comp = document.getElementById('positionselect'); 
+      loadXMLDoc("ajaxcalls.php?function_to_call=1&positionid="+comp.value,function()
+        {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+          {
+          document.getElementById("salarytypeselect").innerHTML=xmlhttp.responseText;
           }
         });
     }
@@ -271,7 +293,7 @@
           </select>
           <input type="text" style="display:none" name="postitle" placeholder="Please tell us the position title" id="otherposition" class="form-control">
           <input type="text" style="display:none" name="posdesc" placeholder="Please give a short description of the position" id="otherpositiondesc" class="form-control">
-          <select id="postypeselect" style="display:none" name="postype">
+          <select id="postypeselect" onChange="updateSalaryTypes()" style="display:none" name="postype">
             <option value="full time">Full Time</option>
             <option value="part time">Part Time</option>
             <option value="internship">Internship</option>

@@ -109,12 +109,13 @@
         <div class="panel-heading">Results</div>
         <table class="table">
         <thead>
-            
+
             <?php
             if($searchfor=="Internships")
             echo '  <tr>
                       <th>Company Name</th>
                       <th>Major</th>
+                      <th>Field</th>
                       <th>Student</th>
                       <th>Hourly Pay</th>
                     </tr>';
@@ -159,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $SQLWhereCondition .= "hourly_pay >=". $hourly_pay;
             $debug_print.="querry condition: ". $SQLWhereCondition ." </br>";
             $internship_results = mysqli_query($conn,
-                                "SELECT company_name, hourly_pay, major, student_name
+                                "SELECT company_name, hourly_pay, major, student_name, field
                                 FROM offers_view " . $SQLWhereCondition);               
             if($internship_results){
                 if (mysqli_num_rows($internship_results)==0) echo '<label id="noResult"> no result found. </label>';
@@ -170,6 +171,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <tr>
                           <td>'. $internships["company_name"]   .'</td>
                           <td>'. $internships["major"]          .'</td>
+                          <td>'. $internships["field"]          .'</td>
                           <td>'. $internships["student_name"]   .'</td>
                           <td>'. $internships["hourly_pay"]     .'</td>
                         </tr>';

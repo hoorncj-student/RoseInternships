@@ -20,14 +20,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                 SET major = '".$newMajor."'");
       if($majorUpdateResult) $Notification.= "New major updated successfully. </br>"; else $Notification.= "update major error. </br>";
     }
-
+    //update grad year
     if(!empty($newGradYear)){
       $newGradYear = mysqli_real_escape_string($conn,$newGradYear);
       $gradYearUpdateResult = mysqli_query($conn,"UPDATE students
                                                 SET grad_year = ". $newGradYear);
       if($gradYearUpdateResult) $Notification.= "New graduation year updated successfully. </br>";else $Notification.= "update graduation year error. </br>";
     }
-
     //update GPA
     if(!empty($newGPA)){
       $newGPA = mysqli_real_escape_string($conn,$newGPA);

@@ -108,7 +108,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">Results</div>
         <table class="table">
-          <thead>
+        <thead>
             <tr>
               <th>Company Name</th>
               <th>Major</th>
@@ -117,6 +117,7 @@
             </tr>
           </thead>
           <tbody>
+
 <?php
 $debug_print = "";
 $SQLWhereCondition = "";
@@ -159,14 +160,77 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         //=========================================================== Companies =============================================================
         }else if ($searchfor=="Companies"){
-
+            $debug_print.="</br>searching for companies. </br>";
+            $field = $_POST['field'];
+            $major = $_POST['major'];
+            $salary = $_POST['salary'];
+            //build the query condition
+            $SQLWhereCondition = "WHERE ";
+            if($field !="any")  $SQLWhereCondition.=" field = '". $field ."' AND ";
+            if($major !="any")  $SQLWhereCondition.=" major = '". $major ."' AND ";
+            $SQLWhereCondition .= " salary >=". $salary;
+            $debug_print.="querry condition: ". $SQLWhereCondition ." </br>";
+            $company_results = mysqli_query($conn,
+                                "SELECT company_name, salary, major, field
+                                FROM offers_view " . $SQLWhereCondition);             
+            if($company_results){
+                if (mysqli_num_rows($company_results)==0) echo '<label id="noResult"> no result found. </label>';
+                else{
+                    $debug_print.="querry runs. </br>";
+                    while ($companies = mysqli_fetch_array($company_results)) {
+                        echo '
+                        <tr>
+                          <td>'. $companies["company_name"]     .'</td>
+                          <td>'. $companies["major"]            .'</td>
+                          <td>'. $companies["field"]            .'</td>
+                          <td>'. $companies["salary"]           .'</td>
+                        </tr>';
+                    }
+                }
+            }else{
+                $debug_print.="querry does not run, may be bad. </br>";
+            }
+        //=========================================================== Careers =============================================================
         }else if ($searchfor=="Careers"){
-
+            $debug_print.="</br>searching for careers. </br>";
+            $field = $_POST['field'];
+            $major = $_POST['major'];
+            $salary = $_POST['salary'];
+            $company = $_POST['company'];
+            //build the query condition
+            $SQLWhereCondition = "WHERE (type = 'full time' OR type = 'part time') AND ";
+            if($field !="any")  $SQLWhereCondition.=" field = '". $field ."' AND ";
+            if($major !="any")  $SQLWhereCondition.=" major = '". $major ."' AND ";
+            if($company !="any")  $SQLWhereCondition.=" company = '". $company ."' AND ";
+            $SQLWhereCondition .= " salary >=". $salary;
+            $debug_print.="querry condition: ". $SQLWhereCondition ." </br>";
+            $career_results = mysqli_query($conn,
+                                "SELECT company_name, salary, major, student_name, field
+                                FROM offers_view " . $SQLWhereCondition);             
+            if($career_results){
+                if (mysqli_num_rows($career_results)==0) echo '<label id="noResult"> no result found. </label>';
+                else{
+                    $debug_print.="querry runs. </br>";
+                    while ($careers = mysqli_fetch_array($career_results)) {
+                        echo '
+                        <tr>
+                          <td>'. $careers["company_name"]     .'</td>
+                          <td>'. $careers["major"]            .'</td>
+                          <td>'. $careers["field"]            .'</td>
+                          <td>'. $careers["student_name"]     .'</td>
+                          <td>'. $careers["salary"]           .'</td>
+                        </tr>';
+                    }
+                }
+            }else{
+                $debug_print.="querry does not run, may be bad. </br>";
+            }
         }
         echo "". $debug_print;
     }
 }
 ?>
+
 
 
 

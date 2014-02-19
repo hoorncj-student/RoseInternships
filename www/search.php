@@ -109,12 +109,32 @@
         <div class="panel-heading">Results</div>
         <table class="table">
         <thead>
-            <tr>
-              <th>Company Name</th>
-              <th>Major</th>
-              <th>Student</th>
-              <th>Hourly Pay</th>
-            </tr>
+            
+            <?php
+            if($searchfor=="Internships")
+            echo '  <tr>
+                      <th>Company Name</th>
+                      <th>Major</th>
+                      <th>Student</th>
+                      <th>Hourly Pay</th>
+                    </tr>';
+            else if($searchfor=="Companies")
+            echo '  <tr>
+                      <th>Company Name</th>
+                      <th>Major</th>
+                      <th>Field</th>
+                      <th>Salary</th>
+                    </tr>';
+            else if($searchfor=="Careers")
+            echo '  <tr>
+                      <th>Company Name</th>
+                      <th>Major</th>
+                      <th>Field</th>
+                      <th>Student</th>
+                      <th>Salary</th>
+                    </tr>';
+            ?>
+
           </thead>
           <tbody>
 

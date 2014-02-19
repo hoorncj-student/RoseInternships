@@ -125,6 +125,7 @@
                       <th>Major</th>
                       <th>Field</th>
                       <th>Salary</th>
+                      <th>Hourly Pay</th>
                     </tr>';
             else if($searchfor=="Careers")
             echo '  <tr>
@@ -133,11 +134,14 @@
                       <th>Field</th>
                       <th>Student</th>
                       <th>Salary</th>
+                      <th>Hourly Pay</th>
                     </tr>';
             ?>
 
           </thead>
           <tbody>
+
+            
 
 <?php
 $debug_print = "";
@@ -153,11 +157,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $company = $_POST['company'];
             $hourly_pay = $_POST['hourly_pay'];
             //build the query condition
-            $SQLWhereCondition = "WHERE type = 'internship' AND ";
-            if($field !="any")  $SQLWhereCondition.=" field = '". $field ."' AND ";
-            if($major !="any")  $SQLWhereCondition.=" major = '". $major ."' AND ";
-            if($company !="any")  $SQLWhereCondition.=" company = '". $company ."' AND ";
-            $SQLWhereCondition .= "hourly_pay >=". $hourly_pay;
+            if ($field =="any" && $major =="any" && $company =="any" && $hourly_pay == 0)
+                $SQLWhereCondition = "WHERE type = 'internship' ";
+            else{
+                $SQLWhereCondition = "WHERE type = 'internship' AND ";
+                if($field !="any")  $SQLWhereCondition.=" field = '". $field ."' AND ";
+                if($major !="any")  $SQLWhereCondition.=" major = '". $major ."' AND ";
+                if($company !="any")  $SQLWhereCondition.=" company = '". $company ."' AND ";
+                $SQLWhereCondition .= "hourly_pay >=". $hourly_pay;
+            }    
             $debug_print.="querry condition: ". $SQLWhereCondition ." </br>";
             $internship_results = mysqli_query($conn,
                                 "SELECT company_name, hourly_pay, major, student_name, field
@@ -187,13 +195,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $major = $_POST['major'];
             $salary = $_POST['salary'];
             //build the query condition
-            $SQLWhereCondition = "WHERE ";
-            if($field !="any")  $SQLWhereCondition.=" field = '". $field ."' AND ";
-            if($major !="any")  $SQLWhereCondition.=" major = '". $major ."' AND ";
-            $SQLWhereCondition .= " salary >=". $salary;
+            if ($field =="any" && $major =="any" && $salary == 0)
+                $SQLWhereCondition = "";
+            else{
+                $SQLWhereCondition = "WHERE ";
+                if($field !="any")  $SQLWhereCondition.=" field = '". $field ."' AND ";
+                if($major !="any")  $SQLWhereCondition.=" major = '". $major ."' AND ";
+                if($salary==0) 
+                    $SQLWhereCondition .= " (salary >= 0 OR hourly_pay >= 0)";
+                else
+                    $SQLWhereCondition .= " salary >=". $salary;
+            }
             $debug_print.="querry condition: ". $SQLWhereCondition ." </br>";
             $company_results = mysqli_query($conn,
-                                "SELECT company_name, salary, major, field
+                                "SELECT company_name, salary, major, field, hourly_pay
                                 FROM offers_view " . $SQLWhereCondition);             
             if($company_results){
                 if (mysqli_num_rows($company_results)==0) echo '<label id="noResult"> no result found. </label>';
@@ -206,6 +221,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                           <td>'. $companies["major"]            .'</td>
                           <td>'. $companies["field"]            .'</td>
                           <td>'. $companies["salary"]           .'</td>
+                          <td>'. $companies["hourly_pay"]       .'</td>
                         </tr>';
                     }
                 }
@@ -220,14 +236,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $salary = $_POST['salary'];
             $company = $_POST['company'];
             //build the query condition
-            $SQLWhereCondition = "WHERE (type = 'full time' OR type = 'part time') AND ";
-            if($field !="any")  $SQLWhereCondition.=" field = '". $field ."' AND ";
-            if($major !="any")  $SQLWhereCondition.=" major = '". $major ."' AND ";
-            if($company !="any")  $SQLWhereCondition.=" company = '". $company ."' AND ";
-            $SQLWhereCondition .= " salary >=". $salary;
+            if ($field =="any" && $major =="any" && $company =="any" && $salary == 0)
+                $SQLWhereCondition = "WHERE (type = 'full time' OR type = 'part time') ";
+            else{
+                $SQLWhereCondition = "WHERE (type = 'full time' OR type = 'part time') AND ";
+                if($field !="any")  $SQLWhereCondition.=" field = '". $field ."' AND ";
+                if($major !="any")  $SQLWhereCondition.=" major = '". $major ."' AND ";
+                if($company !="any")  $SQLWhereCondition.=" company = '". $company ."' AND ";
+                if ($salary==0)
+                    $SQLWhereCondition .= "(salary >= 0 OR hourly_pay >= 0) ";
+                else
+                    $SQLWhereCondition .= " salary >=". $salary;
+            }
             $debug_print.="querry condition: ". $SQLWhereCondition ." </br>";
             $career_results = mysqli_query($conn,
-                                "SELECT company_name, salary, major, student_name, field
+                                "SELECT company_name, salary, major, student_name, field, hourly_pay
                                 FROM offers_view " . $SQLWhereCondition);             
             if($career_results){
                 if (mysqli_num_rows($career_results)==0) echo '<label id="noResult"> no result found. </label>';
@@ -241,6 +264,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                           <td>'. $careers["field"]            .'</td>
                           <td>'. $careers["student_name"]     .'</td>
                           <td>'. $careers["salary"]           .'</td>
+                          <td>'. $careers["hourly_pay"]       .'</td>
                         </tr>';
                     }
                 }

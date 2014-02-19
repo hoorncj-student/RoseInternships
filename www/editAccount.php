@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $newGradYear = $_POST['newGradYear'];
 
     //update major
-    if(!empty($newMajor)){
+    if($newMajor!= "empty"){
       $newMajor = mysqli_real_escape_string($conn,$newMajor);
       $majorUpdateResult = mysqli_query($conn,"UPDATE students
                                                 SET major = '".$newMajor."'");
@@ -75,6 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <link href="css/header.css" rel="stylesheet">
 
+    <link href="css/editAccount.css" rel="stylesheet">
+
 </head>
   <body>
 
@@ -97,6 +99,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <select name="newMajor">
                   <?php
                   $majors = get_majors();
+                  echo '<option value="empty"></option>';
+
                   for($x=0;$x<count($majors);$x++){
                     echo '<option value="' . $majors[$x] . '">' . $majors[$x] . '</option>';
                   }
@@ -132,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           <br/><br/><br/><br/>  
           <div class="row">
             <div class="col-xs-12">
-              <button type="submit" id="submitbutton" name="editAccountSubmitButton" class="btn btn-default button-submit">submit changes</button>
+              <button type="submit"  name="editAccountSubmitButton" class="btn btn-success">submit changes</button>
             </div>
           </div>
         </form>  <br/><br/>

@@ -15,7 +15,11 @@
                                       "FROM students " .
                                       "WHERE student_id = " . $sid);
     $student_row = mysqli_fetch_assoc($student_results);
-    echo "<title>" . htmlspecialchars($student_row["student_name"]) . "'s Profile</title>";
+    if(mysqli_num_rows($student_results) > 0){
+      echo "<title>" . htmlspecialchars($student_row["student_name"]) . "'s Profile</title>";
+    } else {
+      echo "<script> window.location = 'index.php';</script>";
+    }
     ?>
     <!-- Bootstrap core CSS -->
     <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
@@ -71,10 +75,10 @@
       </div>
     </div>
     <?php
-    $offer_results = mysqli_query($conn, "SELECT company_name, title, start_date, salary, hourly_pay, offer_id
+    $offer_results = mysqli_query($conn, "SELECT company_name, title, start_date, salary, hourly_pay, offer_id, company_id
                                                   FROM offers_view
                                                   WHERE student_id = " . $sid);
-    $employment_results = mysqli_query($conn, "SELECT company_name, title, start_date, end_date, salary, hourly_pay, employment_id
+    $employment_results = mysqli_query($conn, "SELECT company_name, title, start_date, end_date, salary, hourly_pay, employment_id, company_id
                                                   FROM employment_view
                                                   WHERE student_id = " . $sid);
     $accepted = mysqli_query($conn, "SELECT "."o.offer_id ".
@@ -105,7 +109,7 @@
               while ($offer = mysqli_fetch_array($offer_results)) {
                 $moneystring = ($offer[3] == 0) ? toMoney($offer[4]) . "/hr" : toMoney($offer[3]) . "/yr";
                 echo '<tr>
-                    <td>'. htmlspecialchars($offer[0]) .'</td>
+                    <td><a href="companyProfile.php?companyid='.htmlspecialchars($offer[6]).'">'. htmlspecialchars($offer[0]) .'</a></td>
                     <td>'. htmlspecialchars($offer[1]) .'</td>
                     <td>'. htmlspecialchars($offer[2]) .'</td>
                     <td>'. $moneystring .'</td>';
@@ -144,7 +148,7 @@
               while ($emp = mysqli_fetch_array($employment_results)) {
                 $moneystring2 = ($emp[4] == 0) ? toMoney($emp[5]) . "/hr" : toMoney($emp[4]) . "/yr";
                 echo '<tr>
-                    <td>'. htmlspecialchars($emp[0]) .'</td>
+                    <td><a href="companyProfile.php?companyid='.htmlspecialchars($emp[7]).'">'. htmlspecialchars($emp[0]) .'</a></td>
                     <td>'. htmlspecialchars($emp[1]) .'</td>
                     <td>'. htmlspecialchars($emp[2]) .'</td>
                     <td>'. htmlspecialchars($emp[3]) .'</td>
@@ -179,8 +183,12 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="../../dist/js/bootstrap.min.js"></script>
-    <script>
-    document.getElementById("profiletab").className = "active";
-    </script>
+    <?php
+    if($student_row['student_id'] == $user_row['student_id']){
+      echo '<script>
+              document.getElementById("profiletab").className = "active";
+            </script>';
+    }
+    ?>
   </body>
 </html>

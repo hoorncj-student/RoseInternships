@@ -209,8 +209,8 @@
 
         if(!$addExperror){
           if(strlen($companyname) > 0){
-            mysqli_query($conn, "INSERT INTO companies (company_name, field)
-                                  VALUES ('". mysqli_real_escape_string($conn,$companyname) ."','". mysqli_real_escape_string($conn,$companyfield) ."')");
+            mysqli_query($conn, "INSERT INTO companies (company_name, field, description)
+                                  VALUES ('". mysqli_real_escape_string($conn,$companyname) ."','". mysqli_real_escape_string($conn,$companyfield) ."','". mysqli_real_escape_string($conn,$companydesc)."')");
             $company = mysqli_insert_id($conn);
           }
           if(strlen($postitle) > 0){

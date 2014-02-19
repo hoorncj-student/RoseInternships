@@ -25,6 +25,8 @@
 
     <link href="css/header.css" rel="stylesheet">
 
+    <link href="css/userProfile.css" rel="stylesheet">
+
   </head>
 
   <body>
@@ -33,7 +35,19 @@
 
     <?php
     if(isset($_POST['accept_offer'])){
-      mysqli_query($conn, "accept_offer(".$_POST['accept_offer'].")");
+      $acceptsuccess = mysqli_query($conn, "CALL accept_offer(".$_POST['offer_id'].")");
+      while(mysqli_more_results($conn))
+      {
+          mysqli_next_result($conn);
+          if($res = mysqli_store_result($conn))
+          {
+              $res->free(); 
+          }
+      }
+    }
+    if(isset($_POST['delete_offer'])){
+      mysqli_query($conn, "DELETE FROM offers
+                                            WHERE offer_id = ".$_POST['offer_id']);
     }
     ?>
 
@@ -49,9 +63,22 @@
         ?>
       </div>
     </div>
-
+    <?php
+    $offer_results = mysqli_query($conn, "SELECT company_name, title, start_date, salary, hourly_pay, offer_id
+                                                  FROM offers_view
+                                                  WHERE student_id = " . $sid);
+    $employment_results = mysqli_query($conn, "SELECT company_name, title, start_date, end_date, salary, hourly_pay, offer_id
+                                                  FROM employment_view
+                                                  WHERE student_id = " . $sid);
+    $accepted = mysqli_query($conn, "SELECT "."o.offer_id ".
+                                        "FROM offers o, employment e
+                                        WHERE o.offer_id = e.offer_id");
+    $acceptedarray = array();
+    while($accepter = mysqli_fetch_array($accepted)){
+      $acceptedarray[] = $accepter[0];
+    }
+    ?>
     <div class="container">
-     
           <h2>Experiences</h2>
           <div class="panel panel-default">
             <div class="panel-heading">Offers</div>
@@ -66,21 +93,20 @@
               </thead>
               <tbody>
                 <?php
-                  $offer_results = mysqli_query($conn, "SELECT company_name, title, start_date, salary, hourly_pay, offer_id
-                                                  FROM offers_view
-                                                  WHERE student_id = " . $sid);
                   while ($offer = mysqli_fetch_array($offer_results)) {
                     $moneystring = ($offer[3] == 0) ? toMoney($offer[4]) . "/hr" : toMoney($offer[3]) . "/yr";
                     echo '<tr>
                         <td>'. $offer[0] .'</td>
                         <td>'. $offer[1] .'</td>
                         <td>'. $offer[2] .'</td>
-                        <td>'. $moneystring .'</td>
-                        <td><form role="form" method="POST" onsubmit="return confirm('.'"Are you sure you want to remove this website?"'.')">
-                          <input type="hidden" name="accept_offer" value='.$offer[5].' />
-                          <button type="submit" class="btn btn-primary button-submit">Accept</button>
-                          </form></td>
-                      </tr>';
+                        <td>'. $moneystring .'</td>';
+                    echo '<td><form role="form" method="POST">
+                              <input type="hidden" name="offer_id" value='.$offer[5].' />';
+                    if(!in_array($offer[5],$acceptedarray)){
+                      echo '<button type="submit" name="accept_offer" class="btn btn-primary button-submit">Accept</button>';
+                    }
+                    echo '<button type="submit" name="delete_offer" class="btn btn-primary button-delete">Delete</button>
+                          </form></td></tr>';
                   }
                 ?>
               </tbody>

@@ -82,7 +82,7 @@
       if(isset($_POST['major']) and strlen($_POST['major']) > 0){
         $major = $_POST['major'];
       } else {
-        $errmessage .= 'major required';
+        $errmessage .= 'major required<br />';
       }
   		if(isset($_POST['gradyr']) and strlen($_POST['gradyr']) > 0){
   			$gradyr = $_POST['gradyr'];

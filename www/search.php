@@ -94,12 +94,14 @@
           ?>
           <?php
           if( $searchfor != 'Internships'){
-            echo 'Salary: <input id="salaryslider" type="range" name="salary" min="30000" max="200000" step="10000" value="30000" onChange="setSalary()"><label id="salaryval">$30000</label>';
+            echo 'Salary: <input id="salaryslider" type="range" name="salary" min="0" max="200000" step="10000" value="0" onChange="setSalary()"><label id="salaryval">$0</label>';
           }else{
-            echo 'Hourly Pay: <input id="hourlyslider" type="range" name="salary" min="10" max="50" step="5" value="10" onChange="setHourly()"><label id="hourlyval">$10</label>';
+            echo 'Hourly Pay: <input id="hourlyslider" type="range" name="hourly_pay" min="0" max="50" step="5" value="0" onChange="setHourly()"><label id="hourlyval">$0</label>';
           }
           ?>
-          </select>
+
+          <button type="submit" class="btn btn-success" name="search_button">Search</button>
+
         </form>
       </div>
 
@@ -108,23 +110,66 @@
         <table class="table">
           <thead>
             <tr>
-              <th>Time</th>
-              <th>From</th>
-              <th>Site</th>
-              <th>Command</th>
+              <th>Company Name</th>
+              <th>Major</th>
+              <th>Student</th>
+              <th>Hourly Pay</th>
             </tr>
           </thead>
           <tbody>
-            %if texts :
-              %for text in texts:
-                <tr>
-                  <td>{{text['time_stamp']}}</td>
-                  <td>{{text['from_number']}}</td>
-                  <td>{{text['url']}}</td>
-                  <td>{{text['body']}}</td>
-                </tr>
-              %end
-            %end
+<?php
+$debug_print = "";
+$SQLWhereCondition = "";
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if(isset($_POST['search_button'])){
+        //=========================================================== Internships =============================================================
+        if($searchfor=="Internships"){
+            $debug_print.="</br>searching for internships. </br>";
+            $field = $_POST['field'];
+            $major = $_POST['major'];
+            $company = $_POST['company'];
+            $hourly_pay = $_POST['hourly_pay'];
+            //build the query condition
+            $SQLWhereCondition = "WHERE type = 'internship' AND ";
+            if($field !="any")  $SQLWhereCondition.=" field = '". $field ."' AND ";
+            if($major !="any")  $SQLWhereCondition.=" major = '". $major ."' AND ";
+            if($company !="any")  $SQLWhereCondition.=" company = '". $company ."' AND ";
+            $SQLWhereCondition .= "hourly_pay >=". $hourly_pay;
+            $debug_print.="querry condition: ". $SQLWhereCondition ." </br>";
+            $internship_results = mysqli_query($conn,
+                                "SELECT company_name, hourly_pay, major, student_name
+                                FROM offers_view " . $SQLWhereCondition);               
+            if($internship_results){
+                if (mysqli_num_rows($internship_results)==0) echo '<label id="noResult"> no result found. </label>';
+                else{
+                    $debug_print.="querry runs. </br>";
+                    while ($internships = mysqli_fetch_array($internship_results)) {
+                        echo '
+                        <tr>
+                          <td>'. $internships["company_name"]   .'</td>
+                          <td>'. $internships["major"]          .'</td>
+                          <td>'. $internships["student_name"]   .'</td>
+                          <td>'. $internships["hourly_pay"]     .'</td>
+                        </tr>';
+                    }  
+                }
+            }else{
+                $debug_print.="querry does not run, may be bad. </br>";
+            }
+        //=========================================================== Companies =============================================================
+        }else if ($searchfor=="Companies"){
+
+        }else if ($searchfor=="Careers"){
+
+        }
+        echo "". $debug_print;
+    }
+}
+?>
+
+
+
           </tbody>
         </table>
       </div>

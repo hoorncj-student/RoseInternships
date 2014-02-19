@@ -18,3 +18,7 @@ select {
 #salaryval, #hourlyval {
 	display: inline;
 }
+
+#noResult{
+	color:#f00;
+}

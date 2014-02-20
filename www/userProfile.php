@@ -60,6 +60,10 @@
       mysqli_query($conn, "DELETE FROM employment
                             WHERE employment_id = " .$_POST['employment_id']);
     }
+
+    if(isset($_POST['edit_employment'])){
+      echo "<script> window.location = 'editEmployment.php?employment_id=". $_POST['employment_id'] ."';</script>";
+    }
     ?>
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
@@ -156,6 +160,7 @@
                     <td><form role="form" method="POST">
                           <input type="hidden" name="employment_id" value='.$emp[6].' />
                           <button type="submit" name="delete_employment" class="btn btn-primary button-delete">Delete</button>
+                          <button type="submit" name="edit_employment" class="btn btn-primary button-edit">Edit</button>
                         </form></td>
                   </tr>';
               }

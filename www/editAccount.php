@@ -17,21 +17,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if($newMajor!= "empty"){
       $newMajor = mysqli_real_escape_string($conn,$newMajor);
       $majorUpdateResult = mysqli_query($conn,"UPDATE students
-                                                SET major = '".$newMajor."'");
+                                                SET major = '".$newMajor."' 
+                                                WHERE student_id = ". $user_row["student_id"]  );
       if($majorUpdateResult) $Notification.= "New major updated successfully. </br>"; else $Notification.= "update major error. </br>";
     }
     //update grad year
     if(!empty($newGradYear)){
       $newGradYear = mysqli_real_escape_string($conn,$newGradYear);
       $gradYearUpdateResult = mysqli_query($conn,"UPDATE students
-                                                SET grad_year = ". $newGradYear);
+                                                SET grad_year = ". $newGradYear."
+                                                WHERE student_id = ". $user_row["student_id"] );
       if($gradYearUpdateResult) $Notification.= "New graduation year updated successfully. </br>";else $Notification.= "update graduation year error. </br>";
     }
     //update GPA
     if(!empty($newGPA)){
       $newGPA = mysqli_real_escape_string($conn,$newGPA);
       $GPAUpdateResult = mysqli_query($conn,"UPDATE students
-                                                SET password =".$newGPA);
+                                                SET gpa =".$newGPA ."
+                                                WHERE student_id = ". $user_row["student_id"]);
       if($GPAUpdateResult) $Notification.= "New GPA updated successfully. </br>";else $Notification.= "update GPA error. </br>";
     }
     //update Password
@@ -39,14 +42,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $newPassword = mysqli_real_escape_string($conn,$newPassword);
       $original_username = $user_row["username"];
       $passwordUpdateResult = mysqli_query($conn,"UPDATE students
-                                                  SET password = saltedHash('" .$original_username . "', '" . $newPassword . "')");
+                                                  SET password = saltedHash('" .$original_username . "', '" . $newPassword . "')
+                                                  WHERE student_id = ". $user_row["student_id"]);
       if($passwordUpdateResult) $Notification.= "New Password updated successfully. </br>";else $Notification.= "update password error. </br>";
     }
     //update email
     if(!empty($newEmail)){
       $newEmail = mysqli_real_escape_string($conn,$newEmail);
       $emailUpdateResult = mysqli_query($conn,"UPDATE students
-                                                SET email = '". $newEmail."'");
+                                                SET email = '". $newEmail."'
+                                                WHERE student_id = ". $user_row["student_id"]);
       if($emailUpdateResult) $Notification.= "New email updated successfully. </br>";else $Notification.= "update email error. </br>";
     }
 

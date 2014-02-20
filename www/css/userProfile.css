@@ -7,3 +7,7 @@
 	background-color:#d22;
 	border-color:#d22;
 }
+
+select {
+	padding: 5px;
+}

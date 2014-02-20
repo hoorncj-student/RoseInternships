@@ -14,4 +14,8 @@ if(isset($_COOKIE["user"])){
 function get_majors(){
 	return array("AB","BE","CE","CHE","CHEM","CPE","CS","EE","EMGT","EP","MA","ME","OE","PH","SE");
 }
+
+function get_grades(){
+	return array("A","B+","B","C+","C","D+","D","F");
+}
 ?>

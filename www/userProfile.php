@@ -31,6 +31,17 @@
 
     <link href="css/userProfile.css" rel="stylesheet">
 
+    <script>
+    function setOtherClass(){
+      thing = document.getElementById('selectclassname');
+      if(thing.value == 'other'){
+        document.getElementById('otherclassfield').style.display = "block";
+      } else {
+        document.getElementById('otherclassfield').style.display = "none";
+      }
+    }
+    </script>
+
   </head>
 
   <body>
@@ -60,6 +71,23 @@
       mysqli_query($conn, "DELETE FROM employment
                             WHERE employment_id = " .$_POST['employment_id']);
     }
+    if(isset($_POST['add_class'])){
+      if(is_numeric($_POST['classname']) or $_POST['classname'] == 'other' and strlen($_POST['otherclassname']) > 0){
+        $classid = $_POST['classname'];
+        if($_POST['classname'] == 'other'){
+          mysqli_query($conn, "INSERT INTO classes (class_name)
+                                VALUES ('".$_POST['otherclassname']."')");
+          $classid = mysqli_insert_id($conn);
+        }
+        mysqli_query($conn, "INSERT INTO enrollment (class_id, student_id, grade, start_date)
+                                VALUES ('".$classid."','".$user_row['student_id']."','".$_POST['grade']."','".$_POST['classdate']."')");
+      }
+    }
+    if(isset($_POST['delete_class'])){
+      mysqli_query($conn, "DELETE FROM enrollment
+                            WHERE class_id = " .$_POST['class_id']. " AND student_id = ".$user_row['student_id']);
+    }
+
     ?>
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
@@ -84,6 +112,9 @@
     $accepted = mysqli_query($conn, "SELECT "."o.offer_id ".
                                         "FROM offers o, employment e
                                         WHERE o.offer_id = e.offer_id");
+    $class_results = mysqli_query($conn, "SELECT c.class_name, e.grade, e.start_date, e.class_id
+                                          FROM enrollment e, classes c
+                                          WHERE e.class_id = c.class_id AND e.student_id = ".$user_row['student_id']);
     $acceptedarray = array();
     while($accepter = mysqli_fetch_array($accepted)){
       $acceptedarray[] = $accepter[0];
@@ -176,6 +207,65 @@
           <h2>Reviews</h2>
 
           <h2>Classes</h2>
+          <div class="panel panel-default">
+            <?php
+            if(mysqli_num_rows($class_results) > 0){
+              echo '<table class="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Grade</th>
+                    <th>Date Taken</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>';
+              while ($cl = mysqli_fetch_array($class_results)) {
+                echo '<tr>
+                    <td>'. htmlspecialchars($cl[0]) .'</a></td>
+                    <td>'. htmlspecialchars($cl[1]) .'</td>
+                    <td>'. htmlspecialchars($cl[2]) .'</td>
+                    <td><form role="form" method="POST">
+                          <input type="hidden" name="class_id" value='.$cl[3].' />
+                          <button type="submit" name="delete_class" class="btn btn-primary button-delete">Delete</button>
+                        </form></td>
+                  </tr>';
+              }
+              echo '</tbody>
+                </table>';
+            } else {
+              echo 'No employment on record';
+            }
+            ?>
+          </div>
+          <?php
+          if($student_row['student_id'] == $user_row['student_id'] ){
+            echo '<form role="form" method="POST">
+                    <div class="row">
+                      <button type="submit" name="add_class" class="btn btn-default button-submit col-xs-2">Add Class &raquo</button>
+                      <div class="col-xs-1">
+                        <label>Class Name: </label><select id="selectclassname" onChange="setOtherClass()" name="classname">';
+            $classes = mysqli_query($conn, "SELECT  class_name, class_id FROM classes ");
+            while ($class = mysqli_fetch_array($classes)) {
+              echo '<option value="' . htmlspecialchars($class[1]) . '">' . htmlspecialchars($class[0]) . '</option>';
+            }
+            echo '<option value="other">Other</option></select></div>
+                <div id="otherclassfield" style="display:none" class="col-xs-3"><input type="text" class="form-control" name="otherclassname" placeholder="Class Name"></div>
+                <div class="col-xs-4">
+                  <label>Grade: </label><select name="grade">';
+            $grades = get_grades();
+            for($x=0;$x<count($grades);$x++){
+                echo '<option value="' . htmlspecialchars($grades[$x]) . '">' . htmlspecialchars($grades[$x]) . '</option>';
+            }
+            echo '</select></div>
+                  <div class="col-xs-2">
+                    <label>Date Taken: </label><input type="date" name="classdate">
+                  </div>
+                </div>
+              </form>';
+          }
+          ?>
+        </div>
 
     </div> <!-- /container -->
     <!-- Bootstrap core JavaScript
@@ -190,5 +280,8 @@
             </script>';
     }
     ?>
+    <script>
+      setOtherClass();
+    </script>
   </body>
 </html>

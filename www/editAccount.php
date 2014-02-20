@@ -50,6 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       if($emailUpdateResult) $Notification.= "New email updated successfully. </br>";else $Notification.= "update email error. </br>";
     }
 
+    if($newMajor== "empty" && empty($newGradYear) && empty($newGPA) && empty($newPassword)  && empty($newEmail))
+      $Notification.= "Nothing Changed.";
+
   }
 }
 ?>

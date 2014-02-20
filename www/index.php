@@ -36,20 +36,25 @@
     <div class="container">
       <!-- Example row of columns -->
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
           <h2>Internships</h2>
           <p>Looking for the perfect experience to kickstart your career? Have a look at what Rose Students have been up to over the summer.</p>
           <p><a class="btn btn-default" href="search.php?searchfor=Internships" role="button">Find Internships &raquo;</a></p>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <h2>Careers</h2>
           <p>Still trying to figure out what to do after Rose? Find out what you might be worth based on statsitics from Rose Graduates.</p>
           <p><a class="btn btn-default" href="search.php?searchfor=Careers" role="button">Find Careers &raquo;</a></p>
        </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <h2>Companies</h2>
-          <p>Interested in learning more about who's looking for you? See what past Rose Student have to say about their employers.</p>
+          <p>Interested in learning more about who's looking for you? See what past Rose Students have to say about their employers.</p>
           <p><a class="btn btn-default" href="search.php?searchfor=Companies" role="button">Find Companies &raquo;</a></p>
+        </div>
+        <div class="col-md-3">
+          <h2>Positions</h2>
+          <p>Trying to find the position that's right for you? See what positions Rose Students have enjoyed.</p>
+          <p><a class="btn btn-default" href="search.php?searchfor=Positions" role="button">Find Positions &raquo;</a></p>
         </div>
       </div>
 

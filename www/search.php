@@ -185,7 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $SQLWhereCondition = "WHERE type = 'internship' AND ";
                 if($field !="any")  $SQLWhereCondition.=" field = '". $field ."' AND ";
                 if($major !="any")  $SQLWhereCondition.=" major = '". $major ."' AND ";
-                if($company !="any")  $SQLWhereCondition.=" company = '". $company ."' AND ";
+                if($company !="any")  $SQLWhereCondition.=" company_name = '". $company ."' AND ";
                 $SQLWhereCondition .= "hourly_pay >=". $hourly_pay;
             }    
             $debug_print.="querry condition: ". $SQLWhereCondition ." </br>";
@@ -271,7 +271,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $SQLWhereCondition = "WHERE (type = 'full time' OR type = 'part time') AND ";
                 if($field !="any")  $SQLWhereCondition.=" field = '". $field ."' AND ";
                 if($major !="any")  $SQLWhereCondition.=" major = '". $major ."' AND ";
-                if($company !="any")  $SQLWhereCondition.=" company = '". $company ."' AND ";
+                if($company !="any")  $SQLWhereCondition.=" company_name = '". $company ."' AND ";
                 if ($salary==0)
                     $SQLWhereCondition .= "(salary >= 0 OR hourly_pay >= 0) ";
                 else

@@ -58,22 +58,28 @@
             <li><a href='/search.php?searchfor=Internships'>Internships</a></li>
             <li><a href="/search.php?searchfor=Careers">Careers</a></li>
             <li><a href="/search.php?searchfor=Companies">Companies</a></li>
+            <li><a href="/search.php?searchfor=Positions">Positions</a></li>
           </ul>
         </div>
       </h1>
       <div class="panel panel-default">
         <div class="panel-heading">Search Options</div>
         <form role="form" action="" method="POST">
-          Field: <select name="field">
-            <option value="any" selected>Any</option>
-            <?php
+
+        <?php    
+          if($searchfor != "Positions"){
+          echo 'Field: <select name="field">
+            <option value="any" selected>Any</option>';
+            
               $fields = mysqli_query($conn, "SELECT DISTINCT(field) ".
                 "FROM companies ");
               while ($field = mysqli_fetch_array($fields)) {
                 echo '<option value="' . htmlspecialchars($field[0]) . '">' . htmlspecialchars($field[0]) . '</option>';
               }
-            ?>
-          </select>
+        
+          echo '</select>';
+        }
+        ?>  
 
         <?php
         if($searchfor != "Companies") {
@@ -104,7 +110,7 @@
           ?>
           <?php
           if( $searchfor != 'Internships'){
-            if($searchfor =="Companies"){
+            if($searchfor =="Companies" || $searchfor=="Positions"){
                 echo 'Average Salary: <input id="salaryslider" type="range" name="ave_salary" min="0" max="200000" step="10000" value="0" onChange="setSalary()"><label id="salaryval">$0</label>';
                 echo 'Average Rating: <input id="ratingslider" type="range" name="ave_rating" min="0" max="5" step="1" value="0" onChange="setRating()"><label id="ratingval">0</label>';
             }else{
@@ -158,6 +164,15 @@
                       <th>Salary</th>
                       <th>Hourly Pay</th>
                     </tr>';
+            else if($searchfor=="Positions")
+            echo '<tr>
+                      <th>Company Name</th>
+                      <th>Major</th>
+                      <th>Title</th>
+                      <th>Average Salary</th>
+                      <th>Average Hourly Pay</th>
+                      <th>Average Rating</th>
+                    </tr> ';        
             ?>
 
           </thead>
@@ -307,6 +322,50 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }else{
                 $debug_print.="querry does not run, may be bad. </br>";
             }
+        //=========================================================== Positions =============================================================    
+        }else if($searchfor == "Positions"){
+            $debug_print.="</br>searching for careers. </br>";
+            $major = $_POST['major'];
+            $ave_salary = $_POST['ave_salary'];
+            $company = $_POST['company'];
+            $ave_rating = $_POST['ave_rating'];
+            //build the query condition
+            if ($major =="any" && $company =="any" && $ave_salary == 0 && $ave_rating==0)
+                $SQLWhereCondition = "";
+            else{
+                $SQLWhereCondition = "WHERE ";
+                if($major !="any")  $SQLWhereCondition.=" major = '". $major ."' AND ";
+                if($ave_rating !=0)  $SQLWhereCondition.=" ave_rating >= '". $ave_rating ."' AND ";
+                if($company !="any")  $SQLWhereCondition.=" company_name = '". $company ."' AND ";
+                if ($ave_salary==0)
+                    $SQLWhereCondition .= "(ave_salary >= 0 OR ave_hourly_pay >= 0) ";
+                else
+                    $SQLWhereCondition .= " ave_salary >=". $ave_salary;
+            }
+            $debug_print.="querry condition: ". $SQLWhereCondition ." </br>";
+            $position_results = mysqli_query($conn,
+                                    "SELECT company_name, ave_salary, major, ave_hourly_pay, company_id, title, ave_rating
+                                    FROM positions_view " . $SQLWhereCondition); 
+            if($position_results){
+                if (mysqli_num_rows($position_results)==0) echo '<label id="noResult"> no result found. </label>';
+                else{
+                    $debug_print.="querry runs. </br>";
+                    while ($positions = mysqli_fetch_array($position_results)) {
+                        echo '
+                        <tr>
+                          <td><a href="companyProfile.php?companyid='.htmlspecialchars($positions["company_id"]).'">'. htmlspecialchars($positions["company_name"]) .'</a></td>
+                          <td>'. $positions["major"]            .'</td>
+                          <td>'. $positions["title"]            .'</td>
+                          <td>'. $positions["ave_salary"]           .'</td>
+                          <td>'. $positions["ave_hourly_pay"]       .'</td>
+                          <td>'. $positions["ave_rating"]       .'</td>
+                        </tr>';
+                    }
+                }
+            }else{
+                $debug_print.="querry does not run, may be bad. </br>";
+            }
+
         }
         echo "". $debug_print;
     }

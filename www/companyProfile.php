@@ -44,10 +44,10 @@
     </div>
     <?php
     $internship_results = mysqli_query($conn, "SELECT title, description, major, ave_hourly_pay, position_id
-                                                  FROM positions_view, 
+                                                  FROM positions_view
                                                   WHERE type = 'internship' AND company_id = " . $cid);
-    $career_results = mysqli_query($conn, "SELECT title, description, major, type, ave_salary, ave_hourly_pay, position_id,
-                                                  FROM positions
+    $career_results = mysqli_query($conn, "SELECT title, description, major, type, ave_salary, ave_hourly_pay, position_id
+                                                  FROM positions_view
                                                   WHERE (type = 'full time' OR type = 'part time') AND company_id = " . $cid);
 
     $review_results = mysqli_query($conn, "SELECT rating, review, time_posted, student_name, title
@@ -105,9 +105,9 @@
                 $moneystring2 = ($car[4] > 0) ? toMoney($car[4]) . "/yr" : toMoney($car[5]) . "/hr";
                 echo '<tr>
                     <td>'. htmlspecialchars($car[0]) .'</td>
+                    <td>'. htmlspecialchars($car[3]) .'</td>
                     <td>'. htmlspecialchars($car[1]) .'</td>
                     <td>'. htmlspecialchars($car[2]) .'</td>
-                    <td>'. htmlspecialchars($car[3]) .'</td>
                     <td>'. $moneystring2 .'</td>
                   </tr>';
               }

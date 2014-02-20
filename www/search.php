@@ -337,8 +337,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 if($major !="any")  $SQLWhereCondition.=" major = '". $major ."' AND ";
                 if($ave_rating !=0)  $SQLWhereCondition.=" ave_rating >= '". $ave_rating ."' AND ";
                 if($company !="any")  $SQLWhereCondition.=" company_name = '". $company ."' AND ";
+
                 if ($ave_salary==0)
-                    $SQLWhereCondition .= "(ave_salary >= 0 OR ave_hourly_pay >= 0) ";
+                    $SQLWhereCondition .= "TRUE";
                 else
                     $SQLWhereCondition .= " ave_salary >=". $ave_salary;
             }
@@ -367,7 +368,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
 
         }
-        //echo "". $debug_print;
+        echo "". $debug_print;
     }
 }
 ?>

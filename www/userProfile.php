@@ -156,6 +156,8 @@
                     <td><form role="form" method="POST">
                           <input type="hidden" name="employment_id" value='.$emp[6].' />
                           <button type="submit" name="delete_employment" class="btn btn-primary button-delete">Delete</button>
+						  <button type="submit" name="review_employment" class="btn btn-primary button-review">Review</button>
+
                         </form></td>
                   </tr>';
               }

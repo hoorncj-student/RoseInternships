@@ -71,6 +71,12 @@
       mysqli_query($conn, "DELETE FROM employment
                             WHERE employment_id = " .$_POST['employment_id']);
     }
+    if(isset($_POST['edit_employment'])){
+      echo "<script> window.location = 'editEmployment.php?employment_id=". $_POST['employment_id'] ."';</script>";
+    }
+    if(isset($_POST['review_employment'])){
+		echo "<script> window.location = 'addReview.php?positionid=" . $_POST['employment_id'] ."';</script>";
+    }
     if(isset($_POST['add_class'])){
       if(is_numeric($_POST['classname']) or $_POST['classname'] == 'other' and strlen($_POST['otherclassname']) > 0){
         $classid = $_POST['classname'];
@@ -88,7 +94,7 @@
                             WHERE class_id = " .$_POST['class_id']. " AND student_id = ".$user_row['student_id']);
     }
 
-    ?>
+	?>
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
@@ -112,9 +118,14 @@
     $accepted = mysqli_query($conn, "SELECT "."o.offer_id ".
                                         "FROM offers o, employment e
                                         WHERE o.offer_id = e.offer_id");
+    $reviews = mysqli_query($conn, "SELECT company_name, title, student_name, rating, review, time_posted ".
+					"FROM reviews_view " .
+					"WHERE student_id = " . $sid);
     $class_results = mysqli_query($conn, "SELECT c.class_name, e.grade, e.start_date, e.class_id
                                           FROM enrollment e, classes c
                                           WHERE e.class_id = c.class_id AND e.student_id = ".$user_row['student_id']);
+									
+										
     $acceptedarray = array();
     while($accepter = mysqli_fetch_array($accepted)){
       $acceptedarray[] = $accepter[0];
@@ -187,6 +198,9 @@
                     <td><form role="form" method="POST">
                           <input type="hidden" name="employment_id" value='.$emp[6].' />
                           <button type="submit" name="delete_employment" class="btn btn-primary button-delete">Delete</button>
+                          <button type="submit" name="review_employment" class="btn btn-primary button-review">Review</button>
+                          <button type="submit" name="edit_employment" class="btn btn-primary button-edit">Edit</button>
+
                         </form></td>
                   </tr>';
               }
@@ -205,6 +219,38 @@
           ?>
 
           <h2>Reviews</h2>
+		  <?php
+            if(mysqli_num_rows($reviews) > 0){
+              echo '<table class="table">
+                <thead>
+                  <tr>
+                    <th>Company Name</th>
+                    <th>Position</th>
+                    <th>Rating</th>
+                    <th>Review</th>
+                    <th>Time Posted</th>
+                  
+                  </tr>
+                </thead>
+                <tbody>';
+				while ($rev = mysqli_fetch_array($reviews)) {
+					echo '<tr>
+                   
+                    <td>'. htmlspecialchars($rev[1]) .'</td>
+                    <td>'. htmlspecialchars($rev[2]) .'</td>
+                    <td>'. htmlspecialchars($rev[3]) .'</td>
+					<td>'. htmlspecialchars($rev[4]) .'</td>
+					<td>'. htmlspecialchars($rev[5]) .'</td>
+					</tr>';
+				
+				}
+				}else{
+				
+				echo "No reviews by this User";
+				}
+				
+				
+				?>
 
           <h2>Classes</h2>
           <div class="panel panel-default">

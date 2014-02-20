@@ -9,13 +9,13 @@ select {
 	margin:5px;
 }
 
-#salaryslider, #hourlyslider {
+#salaryslider, #hourlyslider, #ratingslider {
 	max-width: 200px;
 	display: inline;
 	margin:5px;
 }
 
-#salaryval, #hourlyval {
+#salaryval, #hourlyval, #ratingval {
 	display: inline;
 }
 

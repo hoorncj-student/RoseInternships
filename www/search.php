@@ -192,11 +192,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $offer_or_employment = $_POST['offer_or_employment'];
             if($offer_or_employment == "offer"){
                 $internship_results = mysqli_query($conn,
-                                    "SELECT company_name, hourly_pay, major, student_name, field, student_id
+                                    "SELECT company_name, hourly_pay, major, student_name, field, student_id, company_id
                                     FROM offers_view " . $SQLWhereCondition);     
             }else if ($offer_or_employment == "employment"){
                 $internship_results = mysqli_query($conn,
-                                    "SELECT company_name, hourly_pay, major, student_name, field, student_id
+                                    "SELECT company_name, hourly_pay, major, student_name, field, student_id, company_id
                                     FROM employment_view " . $SQLWhereCondition);
             }          
             if($internship_results){
@@ -206,7 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     while ($internships = mysqli_fetch_array($internship_results)) {
                         echo '
                         <tr>
-                          <td>'. $internships["company_name"]   .'</td>
+                          <td><a href="companyProfile.php?companyid='.htmlspecialchars($internships["company_id"]).'">'. htmlspecialchars($internships["company_name"]) .'</a></td>
                           <td>'. $internships["major"]          .'</td>
                           <td>'. $internships["field"]          .'</td>
                           <td><a href="userProfile.php?studentid='. htmlspecialchars($internships["student_id"]).'">'. htmlspecialchars($internships["student_name"]) .'</a></td>
@@ -237,7 +237,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
             $debug_print.="querry condition: ". $SQLWhereCondition ." </br>";
             $company_results = mysqli_query($conn,
-                                "SELECT company_name, ave_salary, field, description, ave_rating
+                                "SELECT company_name, ave_salary, field, description, ave_rating, company_id
                                 FROM company_view " . $SQLWhereCondition);             
             if($company_results){
                 if (mysqli_num_rows($company_results)==0) echo '<label id="noResult"> no result found. </label>';
@@ -246,7 +246,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     while ($companies = mysqli_fetch_array($company_results)) {
                         echo '
                         <tr>
-                          <td>'. $companies["company_name"]     .'</td>
+                          <td><a href="companyProfile.php?companyid='.htmlspecialchars($companies["company_id"]).'">'. htmlspecialchars($companies["company_name"]) .'</a></td>
                           <td>'. $companies["field"]            .'</td>
                           <td>'. $companies["ave_salary"]       .'</td>
                           <td>'. $companies["ave_rating"]       .'</td>
@@ -281,11 +281,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $offer_or_employment = $_POST['offer_or_employment'];
             if($offer_or_employment == "offer"){
                 $career_results = mysqli_query($conn,
-                                    "SELECT company_name, salary, major, student_name, field, hourly_pay, student_id
+                                    "SELECT company_name, salary, major, student_name, field, hourly_pay, student_id, company_id
                                     FROM offers_view " . $SQLWhereCondition);  
             }else if($offer_or_employment == "employment")  {
                 $career_results = mysqli_query($conn,
-                                    "SELECT company_name, salary, major, student_name, field, hourly_pay, student_id
+                                    "SELECT company_name, salary, major, student_name, field, hourly_pay, student_id, company_id
                                     FROM employment_view " . $SQLWhereCondition);  
             }         
             if($career_results){
@@ -295,7 +295,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     while ($careers = mysqli_fetch_array($career_results)) {
                         echo '
                         <tr>
-                          <td>'. $careers["company_name"]     .'</td>
+                          <td><a href="companyProfile.php?companyid='.htmlspecialchars($careers["company_id"]).'">'. htmlspecialchars($careers["company_name"]) .'</a></td>
                           <td>'. $careers["major"]            .'</td>
                           <td>'. $careers["field"]            .'</td>
                           <td><a href="userProfile.php?studentid='. htmlspecialchars($careers["student_id"]).'">'. htmlspecialchars($careers["student_name"]) .'</a></td>

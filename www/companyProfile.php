@@ -127,6 +127,35 @@
           </div>
 
           <h2>Reviews</h2>
+          <div class="panel panel-default">
+            <?php
+            if(mysqli_num_rows($review_results) > 0){
+              echo '<table class="table">
+              <thead>
+                <tr>
+                  <th>Reviewer</th>
+                  <th>Position</th>
+                  <th>Time</th>
+                  <th>Rating</th>
+                  <th>Review</th>
+                </tr>
+              </thead>
+              <tbody>';
+              while ($review = mysqli_fetch_array($review_results)) {
+                echo '<tr>
+                    <td>'. htmlspecialchars($review[3]) .'</td>
+                    <td>'. htmlspecialchars($review[4]) .'</td>
+                    <td>'. htmlspecialchars(date_format(date_create($review[2]),'m/d/y g:ia')) .'</td>
+                    <td>'. sprintf("%.1f",htmlspecialchars($review[0])) .'</td>
+                    <td>'. htmlspecialchars($review[1]) .'</td>';
+              }
+              echo '</tbody>
+                </table>';
+            } else {
+              echo 'No reviews on record';
+            }
+            ?>
+          </div>
 
     </div> <!-- /container -->
     <!-- Bootstrap core JavaScript

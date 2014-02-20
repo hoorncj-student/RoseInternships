@@ -225,7 +225,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                           <td>'. $internships["major"]          .'</td>
                           <td>'. $internships["field"]          .'</td>
                           <td><a href="userProfile.php?studentid='. htmlspecialchars($internships["student_id"]).'">'. htmlspecialchars($internships["student_name"]) .'</a></td>
-                          <td>'. $internships["hourly_pay"]     .'</td>
+                          <td>'. toMoney($internships["hourly_pay"])     .'</td>
                         </tr>';
                     }  
                 }
@@ -263,8 +263,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <tr>
                           <td><a href="companyProfile.php?companyid='.htmlspecialchars($companies["company_id"]).'">'. htmlspecialchars($companies["company_name"]) .'</a></td>
                           <td>'. $companies["field"]            .'</td>
-                          <td>'. $companies["ave_salary"]       .'</td>
-                          <td>'. $companies["ave_rating"]       .'</td>
+                          <td>'. toMoney($companies["ave_salary"])       .'</td>
+                          <td>'. sprintf("%.1f",$companies["ave_rating"])       .'</td>
                           <td>'. $companies["description"]      .'</td>
                         </tr>';
                     }
@@ -314,8 +314,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                           <td>'. $careers["major"]            .'</td>
                           <td>'. $careers["field"]            .'</td>
                           <td><a href="userProfile.php?studentid='. htmlspecialchars($careers["student_id"]).'">'. htmlspecialchars($careers["student_name"]) .'</a></td>
-                          <td>'. $careers["salary"]           .'</td>
-                          <td>'. $careers["hourly_pay"]       .'</td>
+                          <td>'. toMoney($careers["salary"])           .'</td>
+                          <td>'. toMoney($careers["hourly_pay"])       .'</td>
                         </tr>';
                     }
                 }
@@ -356,9 +356,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                           <td><a href="companyProfile.php?companyid='.htmlspecialchars($positions["company_id"]).'">'. htmlspecialchars($positions["company_name"]) .'</a></td>
                           <td>'. $positions["major"]            .'</td>
                           <td>'. $positions["title"]            .'</td>
-                          <td>'. $positions["ave_salary"]           .'</td>
-                          <td>'. $positions["ave_hourly_pay"]       .'</td>
-                          <td>'. $positions["ave_rating"]       .'</td>
+                          <td>'. toMoney($positions["ave_salary"])           .'</td>
+                          <td>'. toMoney($positions["ave_hourly_pay"])       .'</td>
+                          <td>'. sprintf("%.1f",$positions["ave_rating"])       .'</td>
                         </tr>';
                     }
                 }

@@ -155,13 +155,17 @@
                     <td>'. htmlspecialchars($offer[1]) .'</td>
                     <td>'. htmlspecialchars($offer[2]) .'</td>
                     <td>'. $moneystring .'</td>';
-                echo '<td><form role="form" method="POST">
+                echo '<td>';
+                if($student_row['student_id'] == $user_row['student_id']){
+                  echo '<form role="form" method="POST">
                           <input type="hidden" name="offer_id" value='.$offer[5].' />';
-                if(!in_array($offer[5],$acceptedarray)){
-                  echo '<button type="submit" name="accept_offer" class="btn btn-primary button-submit">Accept</button>';
+                  if(!in_array($offer[5],$acceptedarray)){
+                    echo '<button type="submit" name="accept_offer" class="btn btn-primary button-submit">Accept</button>';
+                  }
+                  echo '<button type="submit" name="delete_offer" class="btn btn-primary button-delete">Delete</button>
+                      </form>';
                 }
-                echo '<button type="submit" name="delete_offer" class="btn btn-primary button-delete">Delete</button>
-                      </form></td></tr>';
+                echo'</td></tr>';
               }
               echo '</tbody>
                 </table>';
@@ -195,13 +199,16 @@
                     <td>'. htmlspecialchars($emp[2]) .'</td>
                     <td>'. htmlspecialchars($emp[3]) .'</td>
                     <td>'. $moneystring2 .'</td>
-                    <td><form role="form" method="POST">
+                    <td>';
+                if($student_row['student_id'] == $user_row['student_id']){
+                    echo '<form role="form" method="POST">
                           <input type="hidden" name="employment_id" value='.$emp[6].' />
                           <button type="submit" name="delete_employment" class="btn btn-primary button-delete">Delete</button>
                           <button type="submit" name="review_employment" class="btn btn-primary button-review">Review</button>
                           <button type="submit" name="edit_employment" class="btn btn-primary button-edit">Edit</button>
-
-                        </form></td>
+                        </form>';
+                }
+                echo '</td>
                   </tr>';
               }
               echo '</tbody>
@@ -270,10 +277,14 @@
                     <td>'. htmlspecialchars($cl[0]) .'</a></td>
                     <td>'. htmlspecialchars($cl[1]) .'</td>
                     <td>'. htmlspecialchars($cl[2]) .'</td>
-                    <td><form role="form" method="POST">
+                    <td>';
+                if($student_row['student_id'] == $user_row['student_id']){
+                  echo '<form role="form" method="POST">
                           <input type="hidden" name="class_id" value='.$cl[3].' />
                           <button type="submit" name="delete_class" class="btn btn-primary button-delete">Delete</button>
-                        </form></td>
+                        </form>';
+                }
+                echo '</td>
                   </tr>';
               }
               echo '</tbody>

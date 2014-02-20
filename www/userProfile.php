@@ -60,7 +60,10 @@
       mysqli_query($conn, "DELETE FROM employment
                             WHERE employment_id = " .$_POST['employment_id']);
     }
-    ?>
+	if(isset($_POST['review_employment'])){
+		echo "<script> window.location = 'addReview.php?positionid=" . $_POST['employment_id'] ."';</script>";
+    }
+	?>
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
@@ -84,6 +87,11 @@
     $accepted = mysqli_query($conn, "SELECT "."o.offer_id ".
                                         "FROM offers o, employment e
                                         WHERE o.offer_id = e.offer_id");
+	$reviews = mysqli_query($conn, "SELECT company_name, title, student_name, rating, review, time_posted ".
+									"FROM reviews_view " .
+									"WHERE student_id = " . $sid);
+									
+										
     $acceptedarray = array();
     while($accepter = mysqli_fetch_array($accepted)){
       $acceptedarray[] = $accepter[0];
@@ -176,6 +184,38 @@
           ?>
 
           <h2>Reviews</h2>
+		  <?php
+            if(mysqli_num_rows($reviews) > 0){
+              echo '<table class="table">
+                <thead>
+                  <tr>
+                    <th>Company Name</th>
+                    <th>Position</th>
+                    <th>Rating</th>
+                    <th>Review</th>
+                    <th>Time Posted</th>
+                  
+                  </tr>
+                </thead>
+                <tbody>';
+				while ($rev = mysqli_fetch_array($reviews)) {
+					echo '<tr>
+                   
+                    <td>'. htmlspecialchars($rev[1]) .'</td>
+                    <td>'. htmlspecialchars($rev[2]) .'</td>
+                    <td>'. htmlspecialchars($rev[3]) .'</td>
+					<td>'. htmlspecialchars($rev[4]) .'</td>
+					<td>'. htmlspecialchars($rev[5]) .'</td>
+					</tr>';
+				
+				}
+				}else{
+				
+				echo "No reviews by this User";
+				}
+				
+				
+				?>
 
           <h2>Classes</h2>
 

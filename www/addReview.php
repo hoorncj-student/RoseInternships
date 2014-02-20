@@ -19,13 +19,14 @@
 													
 		$employment_row = mysqli_fetch_assoc($employment_results);
 		
-		if(mysqli_num_rows($employment_results) ==  1){
+		if(mysqli_num_rows($employment_results) >  0){
 			echo"<div class= " ."container" .">
 			<h1>Review Employment</h1>
 			<p>review " . htmlspecialchars($employment_row["title"]) . " position at " . htmlspecialchars($employment_row["company_name"]) . " here</p>
 			</div>";
 			}else{
-			   echo "<script> window.location = 'index.php';</script>";
+			echo "whats went wrong?";
+			#   echo "<script> window.location = 'index.php';</script>";
     }
 		
 	?>
@@ -74,6 +75,7 @@
 			mysqli_query($conn, "INSERT INTO reviews (student_id, position_id, rating, review)
 									VALUES ('". mysqli_real_escape_string($conn, $_COOKIE["user"]) ."','". mysqli_real_escape_string($conn, $pid) . "','" . mysqli_real_escape_string($conn, $Rating) . "','" . mysqli_real_escape_string($conn, $ReviewText). "')");
 			$rev = mysqli_insert_id($conn);
+			echo "<script> window.location = 'userProfile.php?studentid=". $_COOKIE["user"] ."';</script>";
 		}
 	}
 	

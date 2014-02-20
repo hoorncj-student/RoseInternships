@@ -13,9 +13,9 @@
 		
 		$pid = mysqli_real_escape_string($conn,$_GET["positionid"]);
 
-		$employment_results = mysqli_query($conn, "SELECT * " .
-											"FROM employment_view " .
-											"WHERE employment_id = " . intval($pid));
+		$employment_results = mysqli_query($conn, "SELECT p.title, c.company_name, p.position_id " .
+											"FROM employment e, companies c, positions p " .
+											"WHERE e.position_id = p.position_id AND p.company_id = c.company_id AND e.employment_id = " . intval($pid));
 													
 		$employment_row = mysqli_fetch_assoc($employment_results);
 		
@@ -73,7 +73,7 @@
 		
 		if(!$addRevError){
 			mysqli_query($conn, "INSERT INTO reviews (student_id, position_id, rating, review)
-									VALUES ('". mysqli_real_escape_string($conn, $_COOKIE["user"]) ."','". mysqli_real_escape_string($conn, $pid) . "','" . mysqli_real_escape_string($conn, $Rating) . "','" . mysqli_real_escape_string($conn, $ReviewText). "')");
+									VALUES (". mysqli_real_escape_string($conn, $_COOKIE["user"]) .",". mysqli_real_escape_string($conn, $employment_row['position_id']) . "," . mysqli_real_escape_string($conn, $Rating) . ",'" . mysqli_real_escape_string($conn, $ReviewText). "')");
 			$rev = mysqli_insert_id($conn);
 			echo "<script> window.location = 'userProfile.php?studentid=". $_COOKIE["user"] ."';</script>";
 		}

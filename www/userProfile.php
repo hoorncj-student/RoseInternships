@@ -118,7 +118,7 @@
     $accepted = mysqli_query($conn, "SELECT "."o.offer_id ".
                                         "FROM offers o, employment e
                                         WHERE o.offer_id = e.offer_id");
-    $reviews = mysqli_query($conn, "SELECT company_name, title, student_name, rating, review, time_posted ".
+    $reviews = mysqli_query($conn, "SELECT company_name, title, student_name, rating, review, time_posted, company_id ".
 					"FROM reviews_view " .
 					"WHERE student_id = " . $sid);
     $class_results = mysqli_query($conn, "SELECT c.class_name, e.grade, e.start_date, e.class_id
@@ -219,38 +219,37 @@
           ?>
 
           <h2>Reviews</h2>
-		  <?php
+          <div class="panel panel-default">
+		      <?php
             if(mysqli_num_rows($reviews) > 0){
               echo '<table class="table">
                 <thead>
                   <tr>
                     <th>Company Name</th>
                     <th>Position</th>
+                    <th>Time Posted</th>
                     <th>Rating</th>
                     <th>Review</th>
-                    <th>Time Posted</th>
-                  
                   </tr>
                 </thead>
                 <tbody>';
-				while ($rev = mysqli_fetch_array($reviews)) {
-					echo '<tr>
-                   
-                    <td>'. htmlspecialchars($rev[1]) .'</td>
-                    <td>'. htmlspecialchars($rev[2]) .'</td>
-                    <td>'. htmlspecialchars($rev[3]) .'</td>
-					<td>'. htmlspecialchars($rev[4]) .'</td>
-					<td>'. htmlspecialchars($rev[5]) .'</td>
-					</tr>';
-				
-				}
-				}else{
-				
-				echo "No reviews by this User";
-				}
-				
-				
-				?>
+      				while ($rev = mysqli_fetch_array($reviews)) {
+      					echo '<tr>
+                        <td><a href="companyProfile.php?companyid='.htmlspecialchars($rev[6]).'">'. htmlspecialchars($rev[0]) .'</td>
+                        <td>'. htmlspecialchars($rev[1]) .'</td>
+                        <td>'. htmlspecialchars(date_format(date_create($rev[5]),'m/d/y g:ia')) .'</td>
+      					        <td>'. htmlspecialchars($rev[3]) .'</td>
+      					        <td>'. htmlspecialchars($rev[4]) .'</td>
+      					      </tr>';
+      				
+      				}
+              echo '</tbody>
+                  </table>';
+    				}else{
+    				echo "No reviews by this User";
+    				}
+				  ?>
+        </div>
 
           <h2>Classes</h2>
           <div class="panel panel-default">

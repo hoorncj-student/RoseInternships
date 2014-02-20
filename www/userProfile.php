@@ -113,10 +113,10 @@
       </div>
     </div>
     <?php
-    $offer_results = mysqli_query($conn, "SELECT company_name, title, start_date, salary, hourly_pay, offer_id, company_id
+    $offer_results = mysqli_query($conn, "SELECT company_name, title, start_date, salary, hourly_pay, offer_id, company_id, type
                                                   FROM offers_view
                                                   WHERE student_id = " . $sid);
-    $employment_results = mysqli_query($conn, "SELECT company_name, title, start_date, end_date, salary, hourly_pay, employment_id, company_id
+    $employment_results = mysqli_query($conn, "SELECT company_name, title, start_date, end_date, salary, hourly_pay, employment_id, company_id, type
                                                   FROM employment_view
                                                   WHERE student_id = " . $sid);
     $accepted = mysqli_query($conn, "SELECT "."o.offer_id ".
@@ -146,6 +146,7 @@
                 <tr>
                   <th>Company</th>
                   <th>Position</th>
+                  <th>Type</th>
                   <th>Start Date</th>
                   <th>Salary</th>
                   <th>Actions</th>
@@ -157,6 +158,7 @@
                 echo '<tr>
                     <td><a href="companyProfile.php?companyid='.htmlspecialchars($offer[6]).'">'. htmlspecialchars($offer[0]) .'</a></td>
                     <td>'. htmlspecialchars($offer[1]) .'</td>
+                    <td>'. htmlspecialchars($offer[7]) .'</td>
                     <td>'. htmlspecialchars($offer[2]) .'</td>
                     <td>'. $moneystring .'</td>';
                 echo '<td>';
@@ -188,6 +190,7 @@
                   <tr>
                     <th>Company</th>
                     <th>Position</th>
+                    <th>Type</th>
                     <th>Start Date</th>
                     <th>End Date</th>
                     <th>Salary</th>
@@ -200,6 +203,7 @@
                 echo '<tr>
                     <td><a href="companyProfile.php?companyid='.htmlspecialchars($emp[7]).'">'. htmlspecialchars($emp[0]) .'</a></td>
                     <td>'. htmlspecialchars($emp[1]) .'</td>
+                    <td>'. htmlspecialchars($emp[8]) .'</td>
                     <td>'. htmlspecialchars($emp[2]) .'</td>
                     <td>'. htmlspecialchars($emp[3]) .'</td>
                     <td>'. $moneystring2 .'</td>

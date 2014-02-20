@@ -80,7 +80,11 @@
                     <td>'. htmlspecialchars($internship[0]) .'</td>
                     <td>'. htmlspecialchars($internship[1]) .'</td>
                     <td>'. htmlspecialchars($internship[2]) .'</td>
-                    <td>'. htmlspecialchars(toMoney($internship[3])) .'/hr</td>
+                    <td>';
+                if(!is_null($internship[3])){
+                  echo htmlspecialchars(toMoney($internship[3])) .'/hr';
+                }
+                echo '</td>
                     <td>'. sprintf("%.1f",htmlspecialchars($internship[4])) .'</td>';
               }
               echo '</tbody>
@@ -108,7 +112,7 @@
                 </thead>
                 <tbody>';
               while ($car = mysqli_fetch_array($career_results)) {
-                $moneystring2 = ($car[4] > 0) ? toMoney($car[4]) . "/yr" : toMoney($car[5]) . "/hr";
+                $moneystring2 = (!is_null($car[4])) ? toMoney($car[4]) . "/yr" : ((!is_null($car[5])) ? toMoney($car[5]) . "/hr" : "");
                 echo '<tr>
                     <td>'. htmlspecialchars($car[0]) .'</td>
                     <td>'. htmlspecialchars($car[3]) .'</td>

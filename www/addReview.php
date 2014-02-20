@@ -72,8 +72,8 @@
 			}
 		
 		if(!$addRevError){
-			mysqli_query($conn, "INSERT INTO reviews (student_id, position_id, rating, review)
-									VALUES (". mysqli_real_escape_string($conn, $_COOKIE["user"]) .",". mysqli_real_escape_string($conn, $employment_row['position_id']) . "," . mysqli_real_escape_string($conn, $Rating) . ",'" . mysqli_real_escape_string($conn, $ReviewText). "')");
+			mysqli_query($conn, "INSERT INTO reviews (student_id, position_id, rating, review, time_posted)
+									VALUES (". mysqli_real_escape_string($conn, $_COOKIE["user"]) .",". mysqli_real_escape_string($conn, $employment_row['position_id']) . "," . mysqli_real_escape_string($conn, $Rating) . ",'" . mysqli_real_escape_string($conn, $ReviewText). "', NOW())");
 			$rev = mysqli_insert_id($conn);
 			echo "<script> window.location = 'userProfile.php?studentid=". $_COOKIE["user"] ."';</script>";
 		}

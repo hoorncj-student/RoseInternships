@@ -368,7 +368,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
 
         }
-        echo "". $debug_print;
+        //echo "". $debug_print;
     }
 }
 ?>

@@ -93,6 +93,10 @@
       mysqli_query($conn, "DELETE FROM enrollment
                             WHERE class_id = " .$_POST['class_id']. " AND student_id = ".$user_row['student_id']);
     }
+    if(isset($_POST['delete_review'])){
+      mysqli_query($conn, "DELETE FROM reviews
+                            WHERE review_id = " .$_POST['review_id']);
+    }
 
 	?>
 
@@ -118,7 +122,7 @@
     $accepted = mysqli_query($conn, "SELECT "."o.offer_id ".
                                         "FROM offers o, employment e
                                         WHERE o.offer_id = e.offer_id");
-    $reviews = mysqli_query($conn, "SELECT company_name, title, student_name, rating, review, time_posted, company_id ".
+    $reviews = mysqli_query($conn, "SELECT company_name, title, student_name, rating, review, time_posted, company_id, review_id ".
 					"FROM reviews_view " .
 					"WHERE student_id = " . $sid);
     $class_results = mysqli_query($conn, "SELECT c.class_name, e.grade, e.start_date, e.class_id
@@ -237,6 +241,7 @@
                     <th>Time Posted</th>
                     <th>Rating</th>
                     <th>Review</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>';
@@ -247,7 +252,14 @@
                         <td>'. htmlspecialchars(date_format(date_create($rev[5]),'m/d/y g:ia')) .'</td>
       					        <td>'. htmlspecialchars($rev[3]) .'</td>
       					        <td>'. htmlspecialchars($rev[4]) .'</td>
-      					      </tr>';
+                        <td>';
+                if($student_row['student_id'] == $user_row['student_id']){
+                  echo '<form role="form" method="POST">
+                          <input type="hidden" name="review_id" value='.$rev[7].' />
+                          <button type="submit" name="delete_review" class="btn btn-primary button-delete">Delete</button>
+                        </form>';
+      					 }
+                 echo '</td></tr>';
       				
       				}
               echo '</tbody>

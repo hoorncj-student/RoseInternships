@@ -110,14 +110,19 @@
           ?>
           <?php
           if( $searchfor != 'Internships'){
-            if($searchfor =="Companies" || $searchfor=="Positions"){
-                echo 'Average Salary: <input id="salaryslider" type="range" name="ave_salary" min="0" max="200000" step="10000" value="0" onChange="setSalary()"><label id="salaryval">$0</label>';
-                echo 'Average Rating: <input id="ratingslider" type="range" name="ave_rating" min="0" max="5" step="1" value="0" onChange="setRating()"><label id="ratingval">0</label>';
-            }else{
-                echo 'Salary: <input id="salaryslider" type="range" name="salary" min="0" max="200000" step="10000" value="0" onChange="setSalary()"><label id="salaryval">$0</label>';
+            if($searchfor =="Companies"){
+                echo 'Minimum Salary: <input id="salaryslider" type="range" name="ave_salary" min="0" max="200000" step="10000" value="0" onChange="setSalary()"><label id="salaryval">$0</label>';
+                echo 'Minimum Rating: <input id="ratingslider" type="range" name="ave_rating" min="0" max="5" step="1" value="0" onChange="setRating()"><label id="ratingval">0</label>';
+            }else if( $searchfor == "Positions"){
+                echo 'Minimum Salary: <input id="salaryslider" type="range" name="ave_salary" min="0" max="200000" step="10000" value="0" onChange="setSalary()"><label id="salaryval">$0</label>';
+                echo 'Minimum Hourly: <input id="hourlyslider" type="range" name="hourly_pay" min="0" max="50" step="5" value="0" onChange="setHourly()"><label id="hourlyval">$0</label>';
+                echo 'Minimum Rating: <input id="ratingslider" type="range" name="ave_rating" min="0" max="5" step="1" value="0" onChange="setRating()"><label id="ratingval">0</label>';
+            }
+            else{
+                echo 'Minimum Salary: <input id="salaryslider" type="range" name="salary" min="0" max="200000" step="10000" value="0" onChange="setSalary()"><label id="salaryval">$0</label>';
             }
           }else{
-            echo 'Hourly Pay: <input id="hourlyslider" type="range" name="hourly_pay" min="0" max="50" step="5" value="0" onChange="setHourly()"><label id="hourlyval">$0</label>';
+            echo 'Minimum Hourly: <input id="hourlyslider" type="range" name="hourly_pay" min="0" max="50" step="5" value="0" onChange="setHourly()"><label id="hourlyval">$0</label>';
           }
           ?>
 
@@ -152,7 +157,7 @@
                       <th>Company Name</th>
                       <th>Field</th>
                       <th>Average Salary</th>
-                      <th>Average Rating</th>
+                      <th>Rating</th>
                       <th>Description</th>
                     </tr>';
             else if($searchfor=="Careers")
@@ -171,7 +176,7 @@
                       <th>Title</th>
                       <th>Average Salary</th>
                       <th>Average Hourly Pay</th>
-                      <th>Average Rating</th>
+                      <th>Rating</th>
                     </tr> ';        
             ?>
 
@@ -343,10 +348,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $debug_print.="</br>searching for careers. </br>";
             $major = $_POST['major'];
             $ave_salary = $_POST['ave_salary'];
+            $ave_hourly = $_POST['hourly_pay'];
             $company = $_POST['company'];
             $ave_rating = $_POST['ave_rating'];
             //build the query condition
-            if ($major =="any" && $company =="any" && $ave_salary == 0 && $ave_rating==0)
+            if ($major =="any" && $company =="any" && $ave_salary == 0 && $ave_hourly == 0 && $ave_rating==0)
                 $SQLWhereCondition = "";
             else{
                 $SQLWhereCondition = "WHERE ";
@@ -354,6 +360,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 if($ave_rating !=0)  $SQLWhereCondition.=" ave_rating >= '". $ave_rating ."' AND ";
                 if($company !="any")  $SQLWhereCondition.=" company_name = '". $company ."' AND ";
 
+                if ($ave_hourly != 0){
+                  $SQLWhereCondition .=" ave_hourly_pay >= ". $ave_hourly . " AND ";
+                }
                 if ($ave_salary==0)
                     $SQLWhereCondition .= "TRUE";
                 else

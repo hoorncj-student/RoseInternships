@@ -3,6 +3,7 @@
 // (display an error if the connection fails)
 $conn = mysqli_connect('localhost', 'root', '') or die(mysqli_error());
 mysqli_select_db($conn, 'roseinternships') or die(mysqli_error());
+$user_row = NULL;
 
 if(isset($_COOKIE["user"])){
   $user_results = mysqli_query($conn, "SELECT * 

@@ -127,7 +127,7 @@
 					"WHERE student_id = " . $sid);
     $class_results = mysqli_query($conn, "SELECT c.class_name, e.grade, e.start_date, e.class_id
                                           FROM enrollment e, classes c
-                                          WHERE e.class_id = c.class_id AND e.student_id = ".$user_row['student_id']);
+                                          WHERE e.class_id = c.class_id AND e.student_id = ".$student_row['student_id']);
 									
 										
     $acceptedarray = array();
